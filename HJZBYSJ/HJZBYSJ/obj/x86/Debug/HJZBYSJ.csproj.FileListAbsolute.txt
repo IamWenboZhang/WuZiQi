@@ -1,0 +1,11 @@
+E:\个人项目\办公\C#\五子棋\源代码\HJZBYSJ\HJZBYSJ\bin\Debug\HJZBYSJ.exe
+E:\个人项目\办公\C#\五子棋\源代码\HJZBYSJ\HJZBYSJ\bin\Debug\HJZBYSJ.pdb
+E:\个人项目\办公\C#\五子棋\源代码\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.View.FormGame.resources
+E:\个人项目\办公\C#\五子棋\源代码\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.View.FormLoad.resources
+E:\个人项目\办公\C#\五子棋\源代码\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.Properties.Resources.resources
+E:\个人项目\办公\C#\五子棋\源代码\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.csproj.GenerateResource.Cache
+E:\个人项目\办公\C#\五子棋\源代码\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.exe
+E:\个人项目\办公\C#\五子棋\源代码\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.pdb
+E:\个人项目\办公\C#\五子棋\源代码\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.View.FormMenu.resources
+E:\个人项目\办公\C#\五子棋\源代码\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.View.FormRoom.resources
+E:\个人项目\办公\C#\五子棋\源代码\HJZBYSJ\HJZBYSJ\bin\Debug\HJZBYSJ.exe.config
