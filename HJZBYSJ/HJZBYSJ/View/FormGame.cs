@@ -6,15 +6,22 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using MrOwlLibrary.NetWork.TCP;
 using HJZBYSJ.Model;
 
 namespace HJZBYSJ.View
 {
+    public enum GameModel{SingleAgainsComputer,Online,DoubleOffLine}
     public partial class FormGame : Form
     {
 
-        //默认为单人游戏
-        public bool GameTypeIsDouble = false;
+        public MrOwlTCPClient mrowlTCPClient = new MrOwlTCPClient();
+        public Player thisPlayer = new Player(ChessPieceType.None);
+        private bool CanLuoZi = false;
+        public Player Winer = new Player(ChessPieceType.None);
+
+        //游戏模式（默认为双人离线模式）
+        public GameModel thisGameModel = GameModel.DoubleOffLine;
 
         //画布
         Graphics g = null;
@@ -81,20 +88,28 @@ namespace HJZBYSJ.View
 
         private void FormGame_Load(object sender, EventArgs e)
         {
-            if(this.GameTypeIsDouble)
+            switch (thisGameModel)
             {
-
+                case GameModel.DoubleOffLine:
+                    gameBoard.InitChessBoard(this.pictureBoxGameSence);
+                    this.CurrentPlayerColor = ChessPieceType.Black;
+                    this.Step = 1;
+                    this.IsWin = false;
+                    DrawChessBoard(out g, out bmap); 
+                    break;
+                case GameModel.Online:
+                    gameBoard.InitChessBoard(this.pictureBoxGameSence);
+                    this.Step = 1;
+                    this.IsWin = false;
+                    DrawChessBoard(out g, out bmap);
+                    break;
+                case GameModel.SingleAgainsComputer:
+                    break;
             }
-            else
-            {
-                gameBoard.InitChessBoard(this.pictureBoxGameSence);
-                this.CurrentPlayerColor = ChessPieceType.Black;
-                this.Step = 1;
-                this.IsWin = false;
-                DrawChessBoard(out g, out bmap);
-            }
+                    
         }
- 
+
+        //绘制地图
         private void DrawChessBoard(out Graphics gph, out Bitmap bmap)
         {   
             //创建画布
@@ -122,7 +137,7 @@ namespace HJZBYSJ.View
             this.pictureBoxGameSence.Image = bmap;
         }
 
-
+        //绘制棋子
         private void DrawPiece(ChessPiece piece)
         {
             Image image = this.pictureBoxGameSence.Image;
@@ -156,60 +171,18 @@ namespace HJZBYSJ.View
             this.pictureBoxGameSence.Image = image;
         }
 
+        //单击棋盘落子
         private void pictureBoxGameSence_Click(object sender, EventArgs e)
         {
-            //判断是否是联网对战模式
-
-            //判断是否是胜利状态
-            if (this.IsWin)
+            switch (thisGameModel)
             {
-                MessageBox.Show("已经有人胜利！");
+                case GameModel.DoubleOffLine:
+                    ShuangRenDanJiModelGame(e);
+                    break;
+                case GameModel.Online: break;
+                case GameModel.SingleAgainsComputer: break;
             }
-            else
-            {
-                //判断点击的位置是否可以落子
-                MouseEventArgs g = e as MouseEventArgs;
-                int x = g.X;
-                int y = g.Y;
-                int boardX, boardY;
-                if (LocationXYConvertToChessBoardXY(x, y, out boardX, out boardY))
-                {
-                    //判断该位置是否有子               
-                    //如果没有子则绘制棋子
-                    if (gameBoard.Entity[boardX, boardY].Color == ChessPieceType.None)
-                    {
-                        ChessPiece tmpPiece = new ChessPiece(boardX, boardY, this.CurrentPlayer.Color);
-                        this.DrawPiece(tmpPiece);
-                        gameBoard.Entity[boardX, boardY] = tmpPiece;
-                        //判断是否胜利
-                        if (this.CurrentPlayer.CheckWin(tmpPiece, gameBoard))
-                        {
-                            if (this.CurrentPlayerColor == ChessPieceType.White)
-                            {
-                                MessageBox.Show("白方胜利");
-                                this.IsWin = true;
-                            }
-                            if (this.CurrentPlayerColor == ChessPieceType.Black)
-                            {
-                                MessageBox.Show("黑方胜利");
-                                this.IsWin = true;
-                            }
-                        }
-                        else
-                        {
-                            this.Step = this.Step + 1;
-                            if (this.CurrentPlayerColor == ChessPieceType.White)
-                            {
-                                this.CurrentPlayerColor = ChessPieceType.Black;
-                            }
-                            else if (this.CurrentPlayerColor == ChessPieceType.Black)
-                            {
-                                this.CurrentPlayerColor = ChessPieceType.White;
-                            }
-                        }
-                    }
-                }
-            }          
+              
         }
 
         /// <summary>
@@ -244,7 +217,142 @@ namespace HJZBYSJ.View
                 }
             }
             return isOk;
-        }   
-     
+        }
+
+        private void JudgeWin(ChessPiece piece)
+        {
+            //判断是否胜利
+            if (this.CurrentPlayer.CheckWin(piece, gameBoard))
+            {
+                if (this.CurrentPlayerColor == ChessPieceType.White)
+                {
+                    this.Winer = this.CurrentPlayer;
+                    MessageBox.Show("白方胜利");
+                    this.IsWin = true;
+                }
+                if (this.CurrentPlayerColor == ChessPieceType.Black)
+                {
+                    this.Winer = this.CurrentPlayer;
+                    MessageBox.Show("黑方胜利");
+                    this.IsWin = true;
+                }
+            }
+            else
+            {
+                this.Step = this.Step + 1;
+                if (this.CurrentPlayerColor == ChessPieceType.White)
+                {
+                    this.CurrentPlayerColor = ChessPieceType.Black;
+                }
+                else if (this.CurrentPlayerColor == ChessPieceType.Black)
+                {
+                    this.CurrentPlayerColor = ChessPieceType.White;
+                }
+            }
+        }
+        private void OnlineModelGame(EventArgs e)
+        {
+            //判断是否是联网对战模式
+            if (CanLuoZi)
+            {
+                //判断是否是胜利状态
+                if (this.IsWin)
+                {
+                    MessageBox.Show("已经有人胜利！");
+                }
+                else if (this.CanLuoZi)
+                {
+                    //判断点击的位置是否可以落子
+                    MouseEventArgs g = e as MouseEventArgs;
+                    int x = g.X;
+                    int y = g.Y;
+                    int boardX, boardY;
+                    if (LocationXYConvertToChessBoardXY(x, y, out boardX, out boardY))
+                    {
+                        //判断该位置是否有子               
+                        //如果没有子则绘制棋子
+                        if (gameBoard.Entity[boardX, boardY].Color == ChessPieceType.None)
+                        {
+                            ChessPiece tmpPiece = new ChessPiece(boardX, boardY, this.CurrentPlayer.Color);
+                            this.DrawPiece(tmpPiece);
+                            gameBoard.Entity[boardX, boardY] = tmpPiece;
+                            MessagePackage sendPkg = new MessagePackage("LuoZi", MessagePackage.LuoZiMsgToStirng(tmpPiece)
+                                , thisPlayer.IP, thisPlayer.NickName, DateTime.Now.ToString("yy-MM-dd HH:mm:ss"));
+                            mrowlTCPClient.SendMessage(sendPkg.MsgPkgToString());
+                            JudgeWin(tmpPiece);
+                        }
+                    }
+                    this.CanLuoZi = false;
+                }
+            }
+            else
+            {
+                MessageBox.Show("请等待对方落子！");
+            }
+        }
+
+        private void ShuangRenDanJiModelGame(EventArgs e)
+        {
+            //判断是否是胜利状态
+            if (this.IsWin)
+            {
+                if (this.Winer.Color == ChessPieceType.White)
+                {
+                    MessageBox.Show("白方已经胜利！");
+                }
+                else if(this.Winer.Color == ChessPieceType.Black)
+                {
+                    MessageBox.Show("黑方已经胜利！");
+                }
+            }
+            else
+            {
+                //判断点击的位置是否可以落子
+                MouseEventArgs g = e as MouseEventArgs;
+                int x = g.X;
+                int y = g.Y;
+                int boardX, boardY;
+                if (LocationXYConvertToChessBoardXY(x, y, out boardX, out boardY))
+                {
+                    //判断该位置是否有子               
+                    //如果没有子则绘制棋子
+                    if (gameBoard.Entity[boardX, boardY].Color == ChessPieceType.None)
+                    {
+                        ChessPiece tmpPiece = new ChessPiece(boardX, boardY, this.CurrentPlayer.Color);
+                        this.DrawPiece(tmpPiece);
+                        gameBoard.Entity[boardX, boardY] = tmpPiece;
+                        JudgeWin(tmpPiece);
+                        ////判断是否胜利
+                        //if (this.CurrentPlayer.CheckWin(tmpPiece, gameBoard))
+                        //{
+                        //    if (this.CurrentPlayerColor == ChessPieceType.White)
+                        //    {
+                        //        this.Winer = this.CurrentPlayer;
+                        //        MessageBox.Show("白方胜利");
+                        //        this.IsWin = true;
+                        //    }
+                        //    if (this.CurrentPlayerColor == ChessPieceType.Black)
+                        //    {
+                        //        this.Winer = this.CurrentPlayer;
+                        //        MessageBox.Show("黑方胜利");
+                        //        this.IsWin = true;
+                        //    }
+                        //}
+                        //else
+                        //{
+                        //    this.Step = this.Step + 1;
+                        //    if (this.CurrentPlayerColor == ChessPieceType.White)
+                        //    {
+                        //        this.CurrentPlayerColor = ChessPieceType.Black;
+                        //    }
+                        //    else if (this.CurrentPlayerColor == ChessPieceType.Black)
+                        //    {
+                        //        this.CurrentPlayerColor = ChessPieceType.White;
+                        //    }
+                        //}
+                    }
+                }
+            }      
+        }
     }
 }

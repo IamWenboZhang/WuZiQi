@@ -1,25 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Net.Sockets;
 
 namespace HJZBYSJ.Model
 {
-    class Player
+    public class Player
     {
         //玩家的颜色
         public ChessPieceType Color = ChessPieceType.None;
+        //玩家的IP地址
+        public string IP = "";
+        //玩家的昵称
+        public string NickName = "";
+        //玩家的端口号
+        public const string Port = "4566";
 
         public enum Direction{Left,Up,Right,Bottom,ZuoShang,YouShang,ZuoXia,YouXia,LeftAndRight,UpAndDown,ZuoShangAndYouXia,YoushangAndZuoXia}
 
         public Player(ChessPieceType color)
         {
             this.Color = color;
-        }    
+        }
+
+        public Player(string ip, string nickname, ChessPieceType color)
+        {
+            this.IP = ip;
+            this.NickName = nickname;
+            this.Color = color;
+        }
 
         //胜利的棋子列表
         public List<ChessPiece> WinList = new List<ChessPiece>();
                
-
+        //检测是否胜利
         public bool CheckWin(ChessPiece piece,Chessboard gameBoard)
         {
             bool isWin = false;

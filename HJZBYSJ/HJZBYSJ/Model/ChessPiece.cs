@@ -8,13 +8,13 @@ namespace HJZBYSJ.Model
     /// <summary>
     /// 棋子类型
     /// </summary>
-    enum ChessPieceType
+    public enum ChessPieceType
     {
         None, White, Black
     }
 
 
-    class ChessPiece
+    public class ChessPiece
     {
         public int BoardX = 0;          //棋盘上的x坐标
         public int BoardY = 0;          //棋盘上的y坐标

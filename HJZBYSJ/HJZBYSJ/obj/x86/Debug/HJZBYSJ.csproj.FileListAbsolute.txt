@@ -9,3 +9,17 @@ E:\个人项目\办公\C#\五子棋\源代码\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZB
 E:\个人项目\办公\C#\五子棋\源代码\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.View.FormMenu.resources
 E:\个人项目\办公\C#\五子棋\源代码\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.View.FormRoom.resources
 E:\个人项目\办公\C#\五子棋\源代码\HJZBYSJ\HJZBYSJ\bin\Debug\HJZBYSJ.exe.config
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\bin\Debug\HJZBYSJ.exe.config
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.exe
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.pdb
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\bin\Debug\HJZBYSJ.exe
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\bin\Debug\HJZBYSJ.pdb
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.View.FormGame.resources
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.View.FormLoad.resources
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.View.FormMenu.resources
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.View.FormRoom.resources
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.Properties.Resources.resources
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.csproj.GenerateResource.Cache
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.csprojResolveAssemblyReference.cache
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\bin\Debug\MrOwlLibrary.dll
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\bin\Debug\MrOwlLibrary.pdb

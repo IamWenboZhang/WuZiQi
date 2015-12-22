@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HJZBYSJ", "HJZBYSJ\HJZBYSJ.csproj", "{7C7DBFEC-CE26-4B87-8AF5-A763928F857D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HJZBYSJ-Server", "HJZBYSJ-Server\HJZBYSJ-Server.csproj", "{39A0EA3B-7AB0-48A3-BF9A-84B38E4A081D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +15,10 @@ Global
 		{7C7DBFEC-CE26-4B87-8AF5-A763928F857D}.Debug|x86.Build.0 = Debug|x86
 		{7C7DBFEC-CE26-4B87-8AF5-A763928F857D}.Release|x86.ActiveCfg = Release|x86
 		{7C7DBFEC-CE26-4B87-8AF5-A763928F857D}.Release|x86.Build.0 = Release|x86
+		{39A0EA3B-7AB0-48A3-BF9A-84B38E4A081D}.Debug|x86.ActiveCfg = Debug|x86
+		{39A0EA3B-7AB0-48A3-BF9A-84B38E4A081D}.Debug|x86.Build.0 = Debug|x86
+		{39A0EA3B-7AB0-48A3-BF9A-84B38E4A081D}.Release|x86.ActiveCfg = Release|x86
+		{39A0EA3B-7AB0-48A3-BF9A-84B38E4A081D}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

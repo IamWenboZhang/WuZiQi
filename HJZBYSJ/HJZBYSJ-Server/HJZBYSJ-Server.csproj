@@ -5,14 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7C7DBFEC-CE26-4B87-8AF5-A763928F857D}</ProjectGuid>
+    <ProjectGuid>{39A0EA3B-7AB0-48A3-BF9A-84B38E4A081D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HJZBYSJ</RootNamespace>
-    <AssemblyName>HJZBYSJ</AssemblyName>
+    <RootNamespace>HJZBYSJ_Server</RootNamespace>
+    <AssemblyName>HJZBYSJ-Server</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -50,47 +49,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Chessboard.cs" />
-    <Compile Include="Model\ChessPiece.cs" />
-    <Compile Include="Model\MessagePackage.cs" />
-    <Compile Include="Model\Player.cs" />
-    <Compile Include="View\FormGame.cs">
+    <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\FormGame.Designer.cs">
-      <DependentUpon>FormGame.cs</DependentUpon>
-    </Compile>
-    <Compile Include="View\FormLoad.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\FormLoad.Designer.cs">
-      <DependentUpon>FormLoad.cs</DependentUpon>
-    </Compile>
-    <Compile Include="View\FormMenu.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\FormMenu.Designer.cs">
-      <DependentUpon>FormMenu.cs</DependentUpon>
-    </Compile>
-    <Compile Include="View\FormRoom.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="View\FormRoom.Designer.cs">
-      <DependentUpon>FormRoom.cs</DependentUpon>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="View\FormGame.resx">
-      <DependentUpon>FormGame.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="View\FormLoad.resx">
-      <DependentUpon>FormLoad.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="View\FormMenu.resx">
-      <DependentUpon>FormMenu.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="View\FormRoom.resx">
-      <DependentUpon>FormRoom.cs</DependentUpon>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -100,9 +68,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -113,7 +79,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

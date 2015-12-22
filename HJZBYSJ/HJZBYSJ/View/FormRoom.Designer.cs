@@ -34,13 +34,14 @@
             this.listBoxRooms = new System.Windows.Forms.ListBox();
             this.groupBoxUsers = new System.Windows.Forms.GroupBox();
             this.listBoxUsers = new System.Windows.Forms.ListBox();
+            this.btnCreat = new System.Windows.Forms.Button();
             this.groupBoxRoom.SuspendLayout();
             this.groupBoxUsers.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnLoad
             // 
-            this.btnLoad.Location = new System.Drawing.Point(362, 242);
+            this.btnLoad.Location = new System.Drawing.Point(362, 252);
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(120, 23);
             this.btnLoad.TabIndex = 2;
@@ -82,7 +83,7 @@
             this.groupBoxUsers.Controls.Add(this.listBoxUsers);
             this.groupBoxUsers.Location = new System.Drawing.Point(362, 12);
             this.groupBoxUsers.Name = "groupBoxUsers";
-            this.groupBoxUsers.Size = new System.Drawing.Size(120, 224);
+            this.groupBoxUsers.Size = new System.Drawing.Size(120, 205);
             this.groupBoxUsers.TabIndex = 5;
             this.groupBoxUsers.TabStop = false;
             this.groupBoxUsers.Text = "用户列表";
@@ -93,14 +94,25 @@
             this.listBoxUsers.ItemHeight = 12;
             this.listBoxUsers.Location = new System.Drawing.Point(6, 20);
             this.listBoxUsers.Name = "listBoxUsers";
-            this.listBoxUsers.Size = new System.Drawing.Size(108, 196);
+            this.listBoxUsers.Size = new System.Drawing.Size(108, 172);
             this.listBoxUsers.TabIndex = 0;
+            // 
+            // btnCreat
+            // 
+            this.btnCreat.Location = new System.Drawing.Point(362, 223);
+            this.btnCreat.Name = "btnCreat";
+            this.btnCreat.Size = new System.Drawing.Size(120, 23);
+            this.btnCreat.TabIndex = 6;
+            this.btnCreat.Text = "创建房间";
+            this.btnCreat.UseVisualStyleBackColor = true;
+            this.btnCreat.Click += new System.EventHandler(this.btnCreat_Click);
             // 
             // FormRoom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(494, 311);
+            this.Controls.Add(this.btnCreat);
             this.Controls.Add(this.groupBoxUsers);
             this.Controls.Add(this.groupBoxRoom);
             this.Controls.Add(this.btnCancel);
@@ -109,7 +121,9 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormRoom";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormRoom";
+            this.Load += new System.EventHandler(this.FormRoom_Load);
             this.groupBoxRoom.ResumeLayout(false);
             this.groupBoxUsers.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -124,5 +138,6 @@
         private System.Windows.Forms.ListBox listBoxRooms;
         private System.Windows.Forms.GroupBox groupBoxUsers;
         private System.Windows.Forms.ListBox listBoxUsers;
+        private System.Windows.Forms.Button btnCreat;
     }
 }

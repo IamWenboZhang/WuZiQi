@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace HJZBYSJ.Model
 {
-    class Chessboard
+    public class Chessboard
     {
         public const int Width = 15;          //棋盘宽有多少个点
         public const int Hight = 15;        //棋盘高有多少个点
