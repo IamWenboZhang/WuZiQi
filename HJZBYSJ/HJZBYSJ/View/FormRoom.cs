@@ -56,7 +56,7 @@ namespace HJZBYSJ.View
                 Thread listenThread = new Thread(new ThreadStart(mrowlTcpClient.GetMessage));
                 listenThread.IsBackground = true;
                 listenThread.Start();
-                MessagePackage sendPkg = new MessagePackage("JiaRu", "用户登录：" + NickName, ThisPlayer.IP, ThisPlayer.NickName, DateTime.Now.ToString("yy-MM-dd hh:mm:ss"));
+                MessagePackage sendPkg = new MessagePackage("LianJie", "用户登录：" + NickName, ThisPlayer.IP, ThisPlayer.NickName, DateTime.Now.ToString("yy-MM-dd hh:mm:ss"));
                 mrowlTcpClient.SendMessage(sendPkg.MsgPkgToString());
             }
         }

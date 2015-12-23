@@ -35,9 +35,9 @@
             this.btnStar = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
             this.groupBoxRoom = new System.Windows.Forms.GroupBox();
+            this.listBoxRoom = new System.Windows.Forms.ListBox();
             this.groupBoxUser = new System.Windows.Forms.GroupBox();
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            this.listBox2 = new System.Windows.Forms.ListBox();
+            this.listBoxUser = new System.Windows.Forms.ListBox();
             this.groupBoxRoom.SuspendLayout();
             this.groupBoxUser.SuspendLayout();
             this.SuspendLayout();
@@ -84,6 +84,7 @@
             this.btnStar.TabIndex = 4;
             this.btnStar.Text = "启动服务";
             this.btnStar.UseVisualStyleBackColor = true;
+            this.btnStar.Click += new System.EventHandler(this.btnStar_Click);
             // 
             // btnExit
             // 
@@ -93,10 +94,11 @@
             this.btnExit.TabIndex = 5;
             this.btnExit.Text = "退出";
             this.btnExit.UseVisualStyleBackColor = true;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // groupBoxRoom
             // 
-            this.groupBoxRoom.Controls.Add(this.listBox2);
+            this.groupBoxRoom.Controls.Add(this.listBoxRoom);
             this.groupBoxRoom.Location = new System.Drawing.Point(13, 39);
             this.groupBoxRoom.Name = "groupBoxRoom";
             this.groupBoxRoom.Size = new System.Drawing.Size(403, 277);
@@ -104,9 +106,18 @@
             this.groupBoxRoom.TabStop = false;
             this.groupBoxRoom.Text = "房间列表";
             // 
+            // listBoxRoom
+            // 
+            this.listBoxRoom.FormattingEnabled = true;
+            this.listBoxRoom.ItemHeight = 12;
+            this.listBoxRoom.Location = new System.Drawing.Point(6, 22);
+            this.listBoxRoom.Name = "listBoxRoom";
+            this.listBoxRoom.Size = new System.Drawing.Size(391, 244);
+            this.listBoxRoom.TabIndex = 0;
+            // 
             // groupBoxUser
             // 
-            this.groupBoxUser.Controls.Add(this.listBox1);
+            this.groupBoxUser.Controls.Add(this.listBoxUser);
             this.groupBoxUser.Location = new System.Drawing.Point(466, 40);
             this.groupBoxUser.Name = "groupBoxUser";
             this.groupBoxUser.Size = new System.Drawing.Size(156, 276);
@@ -114,23 +125,14 @@
             this.groupBoxUser.TabStop = false;
             this.groupBoxUser.Text = "用户列表";
             // 
-            // listBox1
+            // listBoxUser
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 12;
-            this.listBox1.Location = new System.Drawing.Point(6, 21);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(144, 244);
-            this.listBox1.TabIndex = 0;
-            // 
-            // listBox2
-            // 
-            this.listBox2.FormattingEnabled = true;
-            this.listBox2.ItemHeight = 12;
-            this.listBox2.Location = new System.Drawing.Point(6, 22);
-            this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(391, 244);
-            this.listBox2.TabIndex = 0;
+            this.listBoxUser.FormattingEnabled = true;
+            this.listBoxUser.ItemHeight = 12;
+            this.listBoxUser.Location = new System.Drawing.Point(6, 21);
+            this.listBoxUser.Name = "listBoxUser";
+            this.listBoxUser.Size = new System.Drawing.Size(144, 244);
+            this.listBoxUser.TabIndex = 0;
             // 
             // Form1
             // 
@@ -164,9 +166,9 @@
         private System.Windows.Forms.Button btnStar;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.GroupBox groupBoxRoom;
-        private System.Windows.Forms.ListBox listBox2;
+        private System.Windows.Forms.ListBox listBoxRoom;
         private System.Windows.Forms.GroupBox groupBoxUser;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox listBoxUser;
     }
 }
 

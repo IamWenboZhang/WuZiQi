@@ -1,0 +1,10 @@
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ-Server\obj\x86\Debug\HJZBYSJ-Server.csprojResolveAssemblyReference.cache
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ-Server\obj\x86\Debug\HJZBYSJ_Server.Form1.resources
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ-Server\obj\x86\Debug\HJZBYSJ_Server.Properties.Resources.resources
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ-Server\obj\x86\Debug\HJZBYSJ-Server.csproj.GenerateResource.Cache
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ-Server\bin\Debug\HJZBYSJ-Server.exe
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ-Server\bin\Debug\HJZBYSJ-Server.pdb
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ-Server\bin\Debug\MrOwlLibrary.dll
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ-Server\bin\Debug\MrOwlLibrary.pdb
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ-Server\obj\x86\Debug\HJZBYSJ-Server.exe
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ-Server\obj\x86\Debug\HJZBYSJ-Server.pdb
