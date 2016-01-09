@@ -19,7 +19,7 @@ namespace HJZBYSJ_Server.Model
         public Socket UserSocket;
 
         public enum Direction{Left,Up,Right,Bottom,ZuoShang,YouShang,ZuoXia,YouXia,LeftAndRight,UpAndDown,ZuoShangAndYouXia,YoushangAndZuoXia}
-
+        
         public Player(ChessPieceType color)
         {
             this.Color = color;

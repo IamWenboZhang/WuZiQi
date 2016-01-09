@@ -19,8 +19,8 @@ namespace HJZBYSJ.View
         public MrOwlTCPClient mrowlTcpClient = new MrOwlTCPClient();
         public Player ThisPlayer;
 
-        public string ServerIP = "";
-        public string NickName = "";
+        //public string ServerIP = "";
+        //public string NickName = "";
 
         public FormRoom()
         {
@@ -29,36 +29,44 @@ namespace HJZBYSJ.View
 
         private void btnLoad_Click(object sender, EventArgs e)
         {
-            MessagePackage sendMsgPkg = new MessagePackage("GetInRoom", this.listBoxRooms.SelectedItem.ToString()
-                , ThisPlayer.IP, ThisPlayer.NickName, DateTime.Now.ToString("yy-MM-dd HH:mm:ss"));
-            mrowlTcpClient.SendMessage(sendMsgPkg.MsgPkgToString());
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+            //MessagePackage sendMsgPkg = new MessagePackage("GetInRoom", this.listBoxRooms.SelectedItem.ToString()
+            //    , ThisPlayer.IP, ThisPlayer.NickName, DateTime.Now.ToString("yy-MM-dd HH:mm:ss"));
+            //mrowlTcpClient.SendMessage(sendMsgPkg.MsgPkgToString());
+            //this.DialogResult = DialogResult.OK;
+            //this.Close();
+            MessagePackage sendPkg = new MessagePackage("LianJie", "用户登录：" + ThisPlayer.NickName, ThisPlayer.IP, ThisPlayer.NickName, DateTime.Now.ToString("yy-MM-dd hh:mm:ss"));
+            mrowlTcpClient.SendMessage(sendPkg.MsgPkgToString());
+          
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            MessagePackage sendMsgPkg = new MessagePackage("TuiChu", this.ThisPlayer.NickName,
+                this.ThisPlayer.IP, this.ThisPlayer.NickName, DateTime.Now.ToString("yy-MM-dd HH:mm:ss"));
+            mrowlTcpClient.SendMessage(sendMsgPkg.MsgPkgToString());
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
 
         private void FormRoom_Load(object sender, EventArgs e)
         {
-            IPAddress ipadd;
-            if (MrOwlNetWork.GetLocalIP(out ipadd))
-            {
-                mrowlTcpClient = new MrOwlTCPClient(ipadd, "4566");
-                mrowlTcpClient.FuncChuLiMessage = DealMsg;
-            }
-            if (mrowlTcpClient.ConnectSever(ServerIP, "4566"))
-            {
-                ThisPlayer = new Player(ipadd.ToString(), NickName, ChessPieceType.None);
-                Thread listenThread = new Thread(new ThreadStart(mrowlTcpClient.GetMessage));
-                listenThread.IsBackground = true;
-                listenThread.Start();
-                MessagePackage sendPkg = new MessagePackage("LianJie", "用户登录：" + NickName, ThisPlayer.IP, ThisPlayer.NickName, DateTime.Now.ToString("yy-MM-dd hh:mm:ss"));
-                mrowlTcpClient.SendMessage(sendPkg.MsgPkgToString());
-            }
+            //IPAddress ipadd;
+            //if (MrOwlNetWork.GetLocalIP(out ipadd))
+            //{
+            //    mrowlTcpClient = new MrOwlTCPClient(ipadd, "4566");
+            //    mrowlTcpClient.FuncChuLiMessage = DealMsg;
+            //}
+            //if (mrowlTcpClient.ConnectSever(ServerIP, "4566"))
+            //{
+            //    ThisPlayer = new Player(ipadd.ToString(), NickName, ChessPieceType.None);
+            //    Thread listenThread = new Thread(new ThreadStart(mrowlTcpClient.GetMessage));
+            //    listenThread.IsBackground = true;
+            //    listenThread.Start();
+            //    MessagePackage sendPkg = new MessagePackage("LianJie", "用户登录：" + NickName, ThisPlayer.IP, ThisPlayer.NickName, DateTime.Now.ToString("yy-MM-dd hh:mm:ss"));
+            //    mrowlTcpClient.SendMessage(sendPkg.MsgPkgToString());
+            //}
+
+            mrowlTcpClient.FuncChuLiMessage = DealMsg;
         }
 
         public void DealMsg(string msg)
@@ -66,17 +74,18 @@ namespace HJZBYSJ.View
             MessagePackage dealMsgPkg = new MessagePackage(msg);
             switch (dealMsgPkg.Command)
             {
-                case "LianJie":
-                    Player tmpUser = new Player(ChessPieceType.None);
-                    tmpUser.IP = dealMsgPkg.SenderIP;
-                    tmpUser.NickName = dealMsgPkg.SenderName;
+                case "LianJie":                
+                    break;
+                case "LianJieResponse":
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
                     break;
                 case "TuiChu": break;
                 case "UserList":
                     this.Invoke(new MethodInvoker(delegate()
                     {
                         string[] tmpUserlist = dealMsgPkg.Data.Split(new char[]{'|'});
-                        for (int i = 0; i < tmpUserlist.Length; i++)
+                        for (int i = 0; i < tmpUserlist.Length - 1; i++)
                         {
                             this.listBoxUsers.Items.Add(tmpUserlist[i]);
                         }
@@ -91,7 +100,7 @@ namespace HJZBYSJ.View
                     this.Invoke(new MethodInvoker(delegate()
                         {
                             string[] tmpRoomlist = dealMsgPkg.Data.Split(new char[] { '|' });
-                            for (int i = 0; i < tmpRoomlist.Length; i++)
+                            for (int i = 0; i < tmpRoomlist.Length - 1; i++)
                             {
                                 this.listBoxRooms.Items.Add(tmpRoomlist[i]);
                             }
@@ -108,7 +117,6 @@ namespace HJZBYSJ.View
             mrowlTcpClient.SendMessage(sendMsgPkg.MsgPkgToString());
             this.DialogResult = DialogResult.OK;
             this.Close();
-        }
-        
+        }   
     }
 }

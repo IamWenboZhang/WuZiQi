@@ -6,13 +6,21 @@ using System.Drawing;
 //using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using HJZBYSJ.Model;
+using System.Net;
+using MrOwlLibrary.NetWork;
+using MrOwlLibrary.NetWork.TCP;
+using System.Threading;
 
 namespace HJZBYSJ.View
 {
     public partial class FormLoad : Form
     {
+        public MrOwlTCPClient mrowlTcpClient = new MrOwlTCPClient();
+        public Player ThisPlayer;
         public string ServerIP = "";
         public string NickName = "";
+        Thread listenThread;
 
         public FormLoad()
         {
@@ -25,8 +33,21 @@ namespace HJZBYSJ.View
             {
                 ServerIP = this.textBoxServerIP.Text;
                 NickName = this.textBoxNickName.Text;
-                this.DialogResult = DialogResult.OK;
-                this.Close();
+                IPAddress ipadd;
+                if (MrOwlNetWork.GetLocalIP(out ipadd))
+                {
+                    mrowlTcpClient = new MrOwlTCPClient(ipadd, "4566");
+                    mrowlTcpClient.FuncChuLiMessage = DealMsg;
+                }
+                if (mrowlTcpClient.ConnectSever(ServerIP, "4566"))
+                {
+                    ThisPlayer = new Player(ipadd.ToString(), NickName, ChessPieceType.None);
+                    listenThread = new Thread(new ThreadStart(mrowlTcpClient.GetMessage));
+                    listenThread.IsBackground = true;
+                    listenThread.Start();
+                    MessagePackage sendPkg = new MessagePackage("LianJie", "用户登录：" + NickName, ThisPlayer.IP, ThisPlayer.NickName, DateTime.Now.ToString("yy-MM-dd hh:mm:ss"));
+                    mrowlTcpClient.SendMessage(sendPkg.MsgPkgToString());
+                }
             }
             else
             {
@@ -43,7 +64,19 @@ namespace HJZBYSJ.View
 
         private void FormLoad_Load(object sender, EventArgs e)
         {
+        }
 
+        private void DealMsg(string msg)
+        {
+            MessagePackage dealMsgPkg = new MessagePackage(msg);
+            switch (dealMsgPkg.Command)
+            {     
+                case "LianJieResponse": 
+                    this.DialogResult = DialogResult.OK;
+                    this.listenThread.Abort();
+                    this.Close();
+                    break;
+            }
         }
     }
 }

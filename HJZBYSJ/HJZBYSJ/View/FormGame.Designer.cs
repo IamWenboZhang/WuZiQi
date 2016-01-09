@@ -205,6 +205,7 @@
             this.btnRevert.TabIndex = 7;
             this.btnRevert.Text = "重新开始";
             this.btnRevert.UseVisualStyleBackColor = true;
+            this.btnRevert.Click += new System.EventHandler(this.btnRevert_Click);
             // 
             // btnExit
             // 
@@ -223,6 +224,7 @@
             this.btnLoad.TabIndex = 9;
             this.btnLoad.Text = "载入存档";
             this.btnLoad.UseVisualStyleBackColor = true;
+            this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
             // 
             // btnSave
             // 
@@ -232,6 +234,7 @@
             this.btnSave.TabIndex = 10;
             this.btnSave.Text = "保存对战";
             this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // textBoxMsg
             // 
@@ -266,6 +269,7 @@
             this.Name = "FormGame";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormGame";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormGame_FormClosing);
             this.Load += new System.EventHandler(this.FormGame_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGameSence)).EndInit();
             this.groupBoxWhite.ResumeLayout(false);

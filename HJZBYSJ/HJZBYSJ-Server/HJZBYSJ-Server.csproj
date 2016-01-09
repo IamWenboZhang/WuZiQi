@@ -59,6 +59,7 @@
     <Compile Include="Model\ChessPiece.cs" />
     <Compile Include="Model\MessagePackage.cs" />
     <Compile Include="Model\Player.cs" />
+    <Compile Include="Model\Room.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">

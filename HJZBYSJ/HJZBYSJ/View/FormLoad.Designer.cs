@@ -62,6 +62,7 @@
             this.textBoxServerIP.Name = "textBoxServerIP";
             this.textBoxServerIP.Size = new System.Drawing.Size(116, 21);
             this.textBoxServerIP.TabIndex = 2;
+            this.textBoxServerIP.Text = "192.168.110.247";
             // 
             // textBoxNickName
             // 
@@ -104,7 +105,7 @@
             this.MinimizeBox = false;
             this.Name = "FormLoad";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FormLoad";
+            this.Text = "FormLoad";    
             this.Load += new System.EventHandler(this.FormLoad_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

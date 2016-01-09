@@ -23,3 +23,5 @@ E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.csproj.Generate
 E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.csprojResolveAssemblyReference.cache
 E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\bin\Debug\MrOwlLibrary.dll
 E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\bin\Debug\MrOwlLibrary.pdb
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.View.FormGameFile.resources
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.View.FormSetGameFileName.resources

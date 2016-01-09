@@ -16,7 +16,7 @@ namespace HJZBYSJ.Model
         //玩家的端口号
         public const string Port = "4566";
 
-        public enum Direction{Left,Up,Right,Bottom,ZuoShang,YouShang,ZuoXia,YouXia,LeftAndRight,UpAndDown,ZuoShangAndYouXia,YoushangAndZuoXia}
+        private enum Direction{Left,Up,Right,Bottom,ZuoShang,YouShang,ZuoXia,YouXia,LeftAndRight,UpAndDown,ZuoShangAndYouXia,YoushangAndZuoXia}
 
         public Player(ChessPieceType color)
         {
@@ -38,22 +38,22 @@ namespace HJZBYSJ.Model
         {
             bool isWin = false;
             //左右查找
-            if (CheckCount(piece, gameBoard, Direction.LeftAndRight) == 5)
+            if (CheckCount(piece, gameBoard, Direction.LeftAndRight) >= 5)
             {
                 isWin = true;
             }
             //上下查找
-            else if (CheckCount(piece, gameBoard, Direction.UpAndDown) == 5)
+            else if (CheckCount(piece, gameBoard, Direction.UpAndDown) >= 5)
             {
                 isWin = true;
             }
             //左上到右下
-            else if (CheckCount(piece, gameBoard, Direction.ZuoShangAndYouXia) == 5)
+            else if (CheckCount(piece, gameBoard, Direction.ZuoShangAndYouXia) >= 5)
             {
                 isWin = true;
             }            
             //右上到左下
-            else if (CheckCount(piece, gameBoard, Direction.YoushangAndZuoXia) == 5)
+            else if (CheckCount(piece, gameBoard, Direction.YoushangAndZuoXia) >= 5)
             {
                 isWin = true;
             }
