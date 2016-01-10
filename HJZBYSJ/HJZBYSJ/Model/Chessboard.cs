@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
+using HJZBYSJ.DataBase;
 
 namespace HJZBYSJ.Model
 {
@@ -17,16 +18,20 @@ namespace HJZBYSJ.Model
         public Point ZuoShangPt;              //左上角的点
         public Point YouXiaPt;                //右下角的点
 
-        public void InitChessBoard(PictureBox picbox)
+        public Chessboard()
         {
             //将棋盘实体内的棋子颜色全部赋值为None
             for (int i = 0; i < Width; i++)
             {
                 for (int j = 0; j < Hight; j++)
                 {
-                    this.Entity[i, j] = new ChessPiece();
+                    this.Entity[i, j] = new ChessPiece(i,j,ChessPieceType.None);
                 }
             }
+        }
+
+        public void SetSize(PictureBox picbox)
+        {
             //判断控件是高大于宽还是宽大于高，取短边的十分之九来作为棋盘的边长    
             if (picbox.Width > picbox.Height)
             {
@@ -46,6 +51,22 @@ namespace HJZBYSJ.Model
             //计算出每一格之间的距离
             this.JianJuLength = this.SideLength / (Chessboard.Width - 1);
         }
+
+        //public static string NoneEnityXMLStr()
+        //{
+        //    ChessPiece[,] NoneEntity = new ChessPiece[Width,Hight];
+        //    //将棋盘实体内的棋子颜色全部赋值为None
+        //    for (int i = 0; i < Width; i++)
+        //    {
+        //        for (int j = 0; j < Hight; j++)
+        //        {
+        //            NoneEntity[i, j] = new ChessPiece();
+        //        }
+        //    }
+        //    string[][] tmp = GameBoardEnityToStringArray(NoneEntity);
+        //    string result = GameUtil.ErWeiArrayToXMLStr(tmp);
+        //    return result;
+        //}
 
         public static string[][] GameBoardEnityToStringArray(ChessPiece[,] Entity)
         {

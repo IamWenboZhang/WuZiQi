@@ -30,7 +30,7 @@ namespace HJZBYSJ.DataBase
         //当前游戏的棋盘
         public Chessboard gameBoard = new Chessboard();
         //当前游戏的棋盘实体的XML字符串
-        public string gameBoardXmlStr = "";
+        public string gameBoardXmlStr = ""; //Chessboard.NoneEnityXMLStr();
         //当前游戏的胜利者
         public Player Winer = new Player(ChessPieceType.None); 
         //游戏模式（默认为双人离线模式）
@@ -154,6 +154,9 @@ namespace HJZBYSJ.DataBase
                             game.step = Convert.ToInt32(dr["Step"]);
                             game.isWin = Convert.ToBoolean(dr["IsWin"]);
                             game.gameBoardXmlStr = dr["GameBoardXmlStr"].ToString();
+                            string[][] tmp;
+                            tmp = GameUtil.XMLStrToErWeiArray(game.gameBoardXmlStr);
+                            game.gameBoard.Entity = Chessboard.StringArrayToGameBoardEnity(tmp);
                             switch(dr["CurrentColor"].ToString())
                             {
                                 case "Black":
@@ -214,7 +217,7 @@ namespace HJZBYSJ.DataBase
 
 
         // 添加一条记录
-        public static int Add(Game a)
+        public static bool Add(Game a)
         {
             try
             {
@@ -237,13 +240,13 @@ namespace HJZBYSJ.DataBase
                     int rows = cmd.ExecuteNonQuery();
                     // 获得Expense表新添加记录的ID 
                     cmd.CommandText = "Select @@Identity";
-                    return Convert.ToInt32(cmd.ExecuteScalar());
+                    return true;
                 }
             }
             catch (System.Exception ex)
             {
                 MessageBox.Show("GameUtil.Add函数失败:" + ex.Message);
-                return -1;
+                return false;
             }
         }
 

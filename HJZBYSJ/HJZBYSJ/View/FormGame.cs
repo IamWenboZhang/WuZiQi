@@ -73,51 +73,26 @@ namespace HJZBYSJ.View
         public FormGame(Game game)
         {
             InitializeComponent();
-            this.ThisGame = game;
-            this.labelUserIPBlack.Text = this.ThisGame.playerBlack.IP;
-            this.labelUserIPWhite.Text = this.ThisGame.playerWhite.IP;
-            this.labelUserNameBlack.Text = this.ThisGame.playerBlack.NickName;
-            this.labelUserNameWhite.Text = this.ThisGame.playerWhite.NickName;
-            ThisGame.gameBoard.InitChessBoard(this.pictureBoxGameSence);
-            DrawChessBoard(out g, out bmap);
-            switch (this.ThisGame.thisGameModel)
-            {
-                case GameModel.DoubleOffLine:
-                    this.CurrentPlayerColor = this.ThisGame.currentColor;
-                    this.Step = this.ThisGame.step;
-                    break;
-                case GameModel.Online:
-                    break;
-                case GameModel.SingleAgainsComputer:
-                    break;
-            }
-        }
-
-        private void FormGame_Load(object sender, EventArgs e)
-        {
-            //this.ThisGame.isWin = false;
-            //this.ThisGame.step = 0;
-            //this.ThisGame.gameBoard = new Chessboard();
+            //this.ThisGame = game;
+            //this.labelUserIPBlack.Text = this.ThisGame.playerBlack.IP;
+            //this.labelUserIPWhite.Text = this.ThisGame.playerWhite.IP;
+            //this.labelUserNameBlack.Text = this.ThisGame.playerBlack.NickName;
+            //this.labelUserNameWhite.Text = this.ThisGame.playerWhite.NickName;
+            //ThisGame.gameBoard.InitChessBoard(this.pictureBoxGameSence);
+            //DrawChessBoard(out g, out bmap);
             //switch (this.ThisGame.thisGameModel)
             //{
             //    case GameModel.DoubleOffLine:
-            //        ThisGame.gameBoard.InitChessBoard(this.pictureBoxGameSence);
-            //        this.CurrentPlayerColor = ChessPieceType.Black;
-            //        this.Step = 1;
-            //        this.ThisGame.isWin = false;
-            //        DrawChessBoard(out g, out bmap); 
+            //        this.CurrentPlayerColor = this.ThisGame.currentColor;
+            //        this.Step = this.ThisGame.step;
             //        break;
             //    case GameModel.Online:
-            //        ThisGame.gameBoard.InitChessBoard(this.pictureBoxGameSence);
-            //        this.Step = 1;
-            //        this.ThisGame.isWin = false;
-            //        DrawChessBoard(out g, out bmap);
             //        break;
             //    case GameModel.SingleAgainsComputer:
             //        break;
-            //}        
+            //}
+            SetGame(game);
         }
-
         //绘制地图
         private void DrawChessBoard(out Graphics gph, out Bitmap bmap)
         {   
@@ -190,7 +165,9 @@ namespace HJZBYSJ.View
                     ShuangRenDanJiModelGame(e);
                     break;
                 case GameModel.Online: break;
-                case GameModel.SingleAgainsComputer: break;
+                case GameModel.SingleAgainsComputer:
+                    SingleAgainstComputerModelGame(e);
+                    break;
             }
               
         }
@@ -302,6 +279,72 @@ namespace HJZBYSJ.View
             }
         }
 
+        private void SingleAgainstComputerModelGame(EventArgs e)
+        {
+            //判断是否是胜利状态
+            if (this.ThisGame.isWin)
+            {
+                if (this.ThisGame.Winer.Color == ChessPieceType.White)
+                {
+                    MessageBox.Show("白方已经胜利！");
+                }
+                else if (this.ThisGame.Winer.Color == ChessPieceType.Black)
+                {
+                    MessageBox.Show("黑方已经胜利！");
+                }
+            }
+            else
+            {
+                //判断点击的位置是否可以落子
+                MouseEventArgs g = e as MouseEventArgs;
+                int x = g.X;
+                int y = g.Y;
+                int boardX, boardY;
+                if (LocationXYConvertToChessBoardXY(x, y, out boardX, out boardY))
+                {
+                    //判断该位置是否有子               
+                    //如果没有子则绘制棋子
+                    if (this.ThisGame.gameBoard.Entity[boardX, boardY].Color == ChessPieceType.None)
+                    {
+                        ChessPiece tmpPiece = new ChessPiece(boardX, boardY, this.ThisGame.CurrentPlayer.Color);
+                        this.DrawPiece(tmpPiece);
+                        this.ThisGame.gameBoard.Entity[boardX, boardY] = tmpPiece;
+                        JudgeWin(tmpPiece);
+                        //电脑下棋（电脑一定为白色）
+                        ChessPiece computerPiece = new ChessPiece();
+                        //判断出白方的最佳点
+                        string computerCount = this.ThisGame.playerWhite.CheckBestPoint(this.ThisGame.gameBoard);
+                        //判断出黑方的最佳点
+                        string humanCount = this.ThisGame.playerBlack.CheckBestPoint(this.ThisGame.gameBoard);
+                        //比较两个点的影响力
+                        int result = Player.GetBigPieceCount(computerCount, humanCount);
+                        switch (result)
+                        {
+                            //如果人脑的最佳点的影响力等于电脑的最佳点的影响力则下到人脑的最佳点
+                            case 0:
+                                computerPiece = this.ThisGame.playerBlack.BestPoint;
+                                break;
+                            //如果人脑的最佳点的影响力小于电脑最佳点的影响力则下到电脑的最佳点
+                            case 1:
+                                computerPiece = this.ThisGame.playerWhite.BestPoint;
+                                break;
+                            //如果人脑的最佳点的影响力大于电脑最佳点的影响力则下到人脑的最佳点
+                            case 2:
+                                computerPiece = this.ThisGame.playerBlack.BestPoint;
+                                break;
+                        }
+                        //落子
+                        computerPiece.Color = ChessPieceType.White;
+                        DrawPiece(computerPiece);
+                        //向棋盘添加该棋子
+                        this.ThisGame.gameBoard.Entity[computerPiece.BoardX, computerPiece.BoardY] = computerPiece;
+                        //判断胜利
+                        JudgeWin(computerPiece);
+                    }
+                }
+            }      
+        }
+
         private void ShuangRenDanJiModelGame(EventArgs e)
         {
             //判断是否是胜利状态
@@ -356,33 +399,44 @@ namespace HJZBYSJ.View
             this.Dispose();
         }
 
-        //private void SetGame(ChessPieceType currentColor, int step, bool iswin, ChessPiece[,] gameboard)
-        //{
-        //    gameBoard.InitChessBoard(this.pictureBoxGameSence);
-        //    this.CurrentPlayerColor = ChessPieceType.Black;
-        //    this.Step = 1;
-        //    this.IsWin = false;
-        //    DrawChessBoard(out g, out bmap);
-        //    for (int i = 0; i < Chessboard.Width; i++)
-        //    {
-        //        for (int j = 0; j < Chessboard.Hight; j++)
-        //        {
-        //            DrawPiece(gameboard[i, j]);
-        //        }
-        //    }
-        //}
+        //将一个Game对象设置到游戏中来
         private void SetGame(Game game)
         {
+            //this.ThisGame = game;
+            //this.ThisGame.gameBoard = new Chessboard();
+            //this.ThisGame.gameBoard.InitChessBoard(this.pictureBoxGameSence);
+            //this.ThisGame.isWin = game.isWin;
+            //this.CurrentPlayerColor = game.currentColor;
+            //this.Step = game.step;
+            //string[][] test;
+            //test = GameUtil.XMLStrToErWeiArray(game.gameBoardXmlStr);
+            //this.ThisGame.gameBoard.Entity = Chessboard.StringArrayToGameBoardEnity(test);
+            //DrawChessBoard(out g, out bmap);
+            //for (int i = 0; i < Chessboard.Width; i++)
+            //{
+            //    for (int j = 0; j < Chessboard.Hight; j++)
+            //    {
+            //        DrawPiece(this.ThisGame.gameBoard.Entity[i, j]);
+            //    }
+            //}
             this.ThisGame = game;
-            this.ThisGame.gameBoard = new Chessboard();
-            this.ThisGame.gameBoard.InitChessBoard(this.pictureBoxGameSence);
-            this.ThisGame.isWin = game.isWin;
-            this.CurrentPlayerColor = game.currentColor;
-            this.Step = game.step;
-            string[][] test;
-            test = GameUtil.XMLStrToErWeiArray(game.gameBoardXmlStr);
-            this.ThisGame.gameBoard.Entity = Chessboard.StringArrayToGameBoardEnity(test);
+            this.labelUserIPBlack.Text = this.ThisGame.playerBlack.IP;
+            this.labelUserIPWhite.Text = this.ThisGame.playerWhite.IP;
+            this.labelUserNameBlack.Text = this.ThisGame.playerBlack.NickName;
+            this.labelUserNameWhite.Text = this.ThisGame.playerWhite.NickName;
+            this.ThisGame.gameBoard.SetSize(this.pictureBoxGameSence);
             DrawChessBoard(out g, out bmap);
+            switch (this.ThisGame.thisGameModel)
+            {
+                case GameModel.DoubleOffLine:
+                    this.CurrentPlayerColor = this.ThisGame.currentColor;
+                    this.Step = this.ThisGame.step;
+                    break;
+                case GameModel.Online:
+                    break;
+                case GameModel.SingleAgainsComputer:
+                    break;
+            }
             for (int i = 0; i < Chessboard.Width; i++)
             {
                 for (int j = 0; j < Chessboard.Hight; j++)
@@ -394,27 +448,13 @@ namespace HJZBYSJ.View
 
         private void btnRevert_Click(object sender, EventArgs e)
         {
-            this.ThisGame.gameBoard.InitChessBoard(this.pictureBoxGameSence);
+            this.ThisGame.gameBoard.SetSize(this.pictureBoxGameSence);
             this.CurrentPlayerColor = ChessPieceType.Black;
             this.Step = 1;
             this.ThisGame.isWin = false;
             DrawChessBoard(out g, out bmap);
         }
 
-        //载入存档按钮单击事件
-        private void btnLoad_Click(object sender, EventArgs e)
-        {
-            FormGameFile frmGameFile = new FormGameFile();
-            if (frmGameFile.ShowDialog() == DialogResult.OK)
-            {
-                Game tmp = new Game ();
-                if (GameUtil.GetAt(frmGameFile.SelectedGameID, ref tmp))
-                {
-                    SetGame(tmp);
-                }
-            }
-            
-        }
         private void btnSave_Click(object sender, EventArgs e)
         {
             if (GameUtil.TestConnection())
@@ -426,7 +466,10 @@ namespace HJZBYSJ.View
                     this.ThisGame.gameName = frmSetName.GameName;
                 }
                 this.ThisGame.gameBoardXmlStr = GameUtil.ErWeiArrayToXMLStr(Chessboard.GameBoardEnityToStringArray(this.ThisGame.gameBoard.Entity));
-                GameUtil.Add(this.ThisGame);
+                if (GameUtil.Add(this.ThisGame))
+                {
+                    MessageBox.Show("保存成功！");
+                }                
             }
         }
     }

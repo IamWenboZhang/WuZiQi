@@ -44,8 +44,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.labelCurrentColor = new System.Windows.Forms.Label();
             this.btnRevert = new System.Windows.Forms.Button();
-            this.btnExit = new System.Windows.Forms.Button();
-            this.btnLoad = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.textBoxMsg = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGameSence)).BeginInit();
@@ -118,7 +116,7 @@
             this.groupBoxBlack.Controls.Add(this.label4);
             this.groupBoxBlack.Controls.Add(this.label6);
             this.groupBoxBlack.Controls.Add(this.labelUserNameBlack);
-            this.groupBoxBlack.Location = new System.Drawing.Point(0, 381);
+            this.groupBoxBlack.Location = new System.Drawing.Point(0, 378);
             this.groupBoxBlack.Name = "groupBoxBlack";
             this.groupBoxBlack.Size = new System.Drawing.Size(152, 75);
             this.groupBoxBlack.TabIndex = 2;
@@ -164,7 +162,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 104);
+            this.label2.Location = new System.Drawing.Point(6, 100);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(77, 12);
             this.label2.TabIndex = 3;
@@ -173,7 +171,7 @@
             // labelStep
             // 
             this.labelStep.AutoSize = true;
-            this.labelStep.Location = new System.Drawing.Point(89, 104);
+            this.labelStep.Location = new System.Drawing.Point(89, 125);
             this.labelStep.Name = "labelStep";
             this.labelStep.Size = new System.Drawing.Size(11, 12);
             this.labelStep.TabIndex = 4;
@@ -182,7 +180,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 131);
+            this.label5.Location = new System.Drawing.Point(6, 150);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(77, 12);
             this.label5.TabIndex = 5;
@@ -191,7 +189,7 @@
             // labelCurrentColor
             // 
             this.labelCurrentColor.AutoSize = true;
-            this.labelCurrentColor.Location = new System.Drawing.Point(89, 131);
+            this.labelCurrentColor.Location = new System.Drawing.Point(89, 175);
             this.labelCurrentColor.Name = "labelCurrentColor";
             this.labelCurrentColor.Size = new System.Drawing.Size(29, 12);
             this.labelCurrentColor.TabIndex = 6;
@@ -199,7 +197,7 @@
             // 
             // btnRevert
             // 
-            this.btnRevert.Location = new System.Drawing.Point(8, 312);
+            this.btnRevert.Location = new System.Drawing.Point(8, 342);
             this.btnRevert.Name = "btnRevert";
             this.btnRevert.Size = new System.Drawing.Size(133, 23);
             this.btnRevert.TabIndex = 7;
@@ -207,28 +205,9 @@
             this.btnRevert.UseVisualStyleBackColor = true;
             this.btnRevert.Click += new System.EventHandler(this.btnRevert_Click);
             // 
-            // btnExit
-            // 
-            this.btnExit.Location = new System.Drawing.Point(8, 341);
-            this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(133, 23);
-            this.btnExit.TabIndex = 8;
-            this.btnExit.Text = "退出房间";
-            this.btnExit.UseVisualStyleBackColor = true;
-            // 
-            // btnLoad
-            // 
-            this.btnLoad.Location = new System.Drawing.Point(8, 283);
-            this.btnLoad.Name = "btnLoad";
-            this.btnLoad.Size = new System.Drawing.Size(133, 23);
-            this.btnLoad.TabIndex = 9;
-            this.btnLoad.Text = "载入存档";
-            this.btnLoad.UseVisualStyleBackColor = true;
-            this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
-            // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(8, 254);
+            this.btnSave.Location = new System.Drawing.Point(8, 306);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(133, 23);
             this.btnSave.TabIndex = 10;
@@ -239,7 +218,7 @@
             // textBoxMsg
             // 
             this.textBoxMsg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBoxMsg.Location = new System.Drawing.Point(0, 155);
+            this.textBoxMsg.Location = new System.Drawing.Point(0, 200);
             this.textBoxMsg.Multiline = true;
             this.textBoxMsg.Name = "textBoxMsg";
             this.textBoxMsg.ReadOnly = true;
@@ -253,8 +232,6 @@
             this.ClientSize = new System.Drawing.Size(606, 462);
             this.Controls.Add(this.textBoxMsg);
             this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.btnLoad);
-            this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnRevert);
             this.Controls.Add(this.labelCurrentColor);
             this.Controls.Add(this.label5);
@@ -270,7 +247,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormGame";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormGame_FormClosing);
-            this.Load += new System.EventHandler(this.FormGame_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGameSence)).EndInit();
             this.groupBoxWhite.ResumeLayout(false);
             this.groupBoxWhite.PerformLayout();
@@ -299,8 +275,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label labelCurrentColor;
         private System.Windows.Forms.Button btnRevert;
-        private System.Windows.Forms.Button btnExit;
-        private System.Windows.Forms.Button btnLoad;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.TextBox textBoxMsg;
     }

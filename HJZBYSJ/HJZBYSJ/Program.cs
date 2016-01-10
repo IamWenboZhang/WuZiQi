@@ -63,6 +63,17 @@ namespace HJZBYSJ
             {
                 DoInFormLoad();
             }
+            else if (result == DialogResult.Yes)
+            {
+                FormGame frmGame = new FormGame(frmMenu.LoadGame);
+                Application.Run(frmGame);
+            }
+            else if (result == DialogResult.No)
+            {
+                Game tmpGame = new Game(1, false, ChessPieceType.Black, GameModel.SingleAgainsComputer);
+                FormGame frmGame = new FormGame(tmpGame);
+                Application.Run(frmGame);
+            }
             else
             {
                 Application.ExitThread();

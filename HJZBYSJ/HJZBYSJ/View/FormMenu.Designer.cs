@@ -31,11 +31,13 @@
             this.btnSingle = new System.Windows.Forms.Button();
             this.btnOnline = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
+            this.btnLoadFile = new System.Windows.Forms.Button();
+            this.btnAgainstComputer = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnSingle
             // 
-            this.btnSingle.Location = new System.Drawing.Point(105, 52);
+            this.btnSingle.Location = new System.Drawing.Point(105, 32);
             this.btnSingle.Name = "btnSingle";
             this.btnSingle.Size = new System.Drawing.Size(75, 23);
             this.btnSingle.TabIndex = 0;
@@ -45,7 +47,7 @@
             // 
             // btnOnline
             // 
-            this.btnOnline.Location = new System.Drawing.Point(105, 120);
+            this.btnOnline.Location = new System.Drawing.Point(105, 130);
             this.btnOnline.Name = "btnOnline";
             this.btnOnline.Size = new System.Drawing.Size(75, 23);
             this.btnOnline.TabIndex = 1;
@@ -55,7 +57,7 @@
             // 
             // btnExit
             // 
-            this.btnExit.Location = new System.Drawing.Point(105, 181);
+            this.btnExit.Location = new System.Drawing.Point(105, 179);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(75, 23);
             this.btnExit.TabIndex = 2;
@@ -63,11 +65,33 @@
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
+            // btnLoadFile
+            // 
+            this.btnLoadFile.Location = new System.Drawing.Point(105, 81);
+            this.btnLoadFile.Name = "btnLoadFile";
+            this.btnLoadFile.Size = new System.Drawing.Size(75, 23);
+            this.btnLoadFile.TabIndex = 3;
+            this.btnLoadFile.Text = "载入存档";
+            this.btnLoadFile.UseVisualStyleBackColor = true;
+            this.btnLoadFile.Click += new System.EventHandler(this.btnLoadFile_Click);
+            // 
+            // btnAgainstComputer
+            // 
+            this.btnAgainstComputer.Location = new System.Drawing.Point(136, 3);
+            this.btnAgainstComputer.Name = "btnAgainstComputer";
+            this.btnAgainstComputer.Size = new System.Drawing.Size(75, 23);
+            this.btnAgainstComputer.TabIndex = 4;
+            this.btnAgainstComputer.Text = "人机对战";
+            this.btnAgainstComputer.UseVisualStyleBackColor = true;
+            this.btnAgainstComputer.Click += new System.EventHandler(this.btnAgainstComputer_Click);
+            // 
             // FormMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 262);
+            this.Controls.Add(this.btnAgainstComputer);
+            this.Controls.Add(this.btnLoadFile);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnOnline);
             this.Controls.Add(this.btnSingle);
@@ -86,5 +110,7 @@
         private System.Windows.Forms.Button btnSingle;
         private System.Windows.Forms.Button btnOnline;
         private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.Button btnLoadFile;
+        private System.Windows.Forms.Button btnAgainstComputer;
     }
 }
