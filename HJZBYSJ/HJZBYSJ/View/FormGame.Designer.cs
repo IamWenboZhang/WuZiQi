@@ -247,6 +247,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormGame";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormGame_FormClosing);
+            this.Load += new System.EventHandler(this.FormGame_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGameSence)).EndInit();
             this.groupBoxWhite.ResumeLayout(false);
             this.groupBoxWhite.PerformLayout();

@@ -32,20 +32,20 @@ namespace HJZBYSJ.View
         {
             get
             {
-                return this.ThisGame.currentColor;
+                return this.ThisGame.CurrentColor;
             }
             set
             {
                 if (value == ChessPieceType.White)
                 {
                     this.ThisGame.CurrentPlayer = this.ThisGame.playerWhite;
-                    this.ThisGame.currentColor = ChessPieceType.White;
+                    this.ThisGame.CurrentColor = ChessPieceType.White;
                     this.labelCurrentColor.Text = "白色";
                 }
                 else if (value == ChessPieceType.Black)
                 {
                     this.ThisGame.CurrentPlayer = this.ThisGame.playerBlack;
-                    this.ThisGame.currentColor = ChessPieceType.Black;
+                    this.ThisGame.CurrentColor = ChessPieceType.Black;
                     this.labelCurrentColor.Text = "黑色";
                 }
             }
@@ -73,24 +73,6 @@ namespace HJZBYSJ.View
         public FormGame(Game game)
         {
             InitializeComponent();
-            //this.ThisGame = game;
-            //this.labelUserIPBlack.Text = this.ThisGame.playerBlack.IP;
-            //this.labelUserIPWhite.Text = this.ThisGame.playerWhite.IP;
-            //this.labelUserNameBlack.Text = this.ThisGame.playerBlack.NickName;
-            //this.labelUserNameWhite.Text = this.ThisGame.playerWhite.NickName;
-            //ThisGame.gameBoard.InitChessBoard(this.pictureBoxGameSence);
-            //DrawChessBoard(out g, out bmap);
-            //switch (this.ThisGame.thisGameModel)
-            //{
-            //    case GameModel.DoubleOffLine:
-            //        this.CurrentPlayerColor = this.ThisGame.currentColor;
-            //        this.Step = this.ThisGame.step;
-            //        break;
-            //    case GameModel.Online:
-            //        break;
-            //    case GameModel.SingleAgainsComputer:
-            //        break;
-            //}
             SetGame(game);
         }
         //绘制地图
@@ -310,36 +292,43 @@ namespace HJZBYSJ.View
                         this.DrawPiece(tmpPiece);
                         this.ThisGame.gameBoard.Entity[boardX, boardY] = tmpPiece;
                         JudgeWin(tmpPiece);
-                        //电脑下棋（电脑一定为白色）
-                        ChessPiece computerPiece = new ChessPiece();
-                        //判断出白方的最佳点
-                        string computerCount = this.ThisGame.playerWhite.CheckBestPoint(this.ThisGame.gameBoard);
-                        //判断出黑方的最佳点
-                        string humanCount = this.ThisGame.playerBlack.CheckBestPoint(this.ThisGame.gameBoard);
-                        //比较两个点的影响力
-                        int result = Player.GetBigPieceCount(computerCount, humanCount);
-                        switch (result)
+                        //如果人没有胜利电脑开始下子
+                        if (!this.ThisGame.isWin)
                         {
-                            //如果人脑的最佳点的影响力等于电脑的最佳点的影响力则下到人脑的最佳点
-                            case 0:
-                                computerPiece = this.ThisGame.playerBlack.BestPoint;
-                                break;
-                            //如果人脑的最佳点的影响力小于电脑最佳点的影响力则下到电脑的最佳点
-                            case 1:
-                                computerPiece = this.ThisGame.playerWhite.BestPoint;
-                                break;
-                            //如果人脑的最佳点的影响力大于电脑最佳点的影响力则下到人脑的最佳点
-                            case 2:
-                                computerPiece = this.ThisGame.playerBlack.BestPoint;
-                                break;
+                            //电脑下棋（电脑一定为黑色）
+                            ChessPiece computerPiece = new ChessPiece();
+                            //判断出黑方的最佳点
+                            string computerCount = this.ThisGame.playerWhite.GetBestPointEffectLevel(this.ThisGame.gameBoard);
+                            //判断出白方的最佳点
+                            string humanCount = this.ThisGame.playerBlack.GetBestPointEffectLevel(this.ThisGame.gameBoard);
+                            //比较两个点的影响力
+                            int result = Player.CompareEffectLevel(computerCount, humanCount);
+                            switch (result)
+                            {
+                                //如果人脑的最佳点的影响力等于电脑的最佳点的影响力则下到人脑的最佳点
+                                //Computer == Human
+                                case 0:
+                                    computerPiece = this.ThisGame.playerBlack.BestPoint;
+                                    break;
+                                //如果人脑的最佳点的影响力小于电脑最佳点的影响力则下到电脑的最佳点
+                                //Computer > Human
+                                case 1:
+                                    computerPiece = this.ThisGame.playerWhite.BestPoint;
+                                    break;
+                                //如果人脑的最佳点的影响力大于电脑最佳点的影响力则下到人脑的最佳点
+                                //Computer < Human
+                                case 2:
+                                    computerPiece = this.ThisGame.playerBlack.BestPoint;
+                                    break;
+                            }
+                            //落子
+                            computerPiece.Color = this.ThisGame.CurrentPlayer.Color;
+                            DrawPiece(computerPiece);
+                            //向棋盘添加该棋子
+                            this.ThisGame.gameBoard.Entity[computerPiece.BoardX, computerPiece.BoardY] = new ChessPiece(computerPiece.BoardX, computerPiece.BoardY, this.ThisGame.CurrentPlayer.Color);
+                            //判断胜利
+                            JudgeWin(computerPiece);
                         }
-                        //落子
-                        computerPiece.Color = ChessPieceType.White;
-                        DrawPiece(computerPiece);
-                        //向棋盘添加该棋子
-                        this.ThisGame.gameBoard.Entity[computerPiece.BoardX, computerPiece.BoardY] = computerPiece;
-                        //判断胜利
-                        JudgeWin(computerPiece);
                     }
                 }
             }      
@@ -375,7 +364,7 @@ namespace HJZBYSJ.View
                         ChessPiece tmpPiece = new ChessPiece(boardX, boardY, this.ThisGame.CurrentPlayer.Color);
                         this.DrawPiece(tmpPiece);
                         this.ThisGame.gameBoard.Entity[boardX, boardY] = tmpPiece;
-                        JudgeWin(tmpPiece);                        
+                        JudgeWin(tmpPiece);
                     }
                 }
             }      
@@ -429,7 +418,7 @@ namespace HJZBYSJ.View
             switch (this.ThisGame.thisGameModel)
             {
                 case GameModel.DoubleOffLine:
-                    this.CurrentPlayerColor = this.ThisGame.currentColor;
+                    this.CurrentPlayerColor = this.ThisGame.CurrentColor;
                     this.Step = this.ThisGame.step;
                     break;
                 case GameModel.Online:
@@ -437,9 +426,9 @@ namespace HJZBYSJ.View
                 case GameModel.SingleAgainsComputer:
                     break;
             }
-            for (int i = 0; i < Chessboard.Width; i++)
+            for (int i = 0; i < Chessboard.Hight; i++)
             {
-                for (int j = 0; j < Chessboard.Hight; j++)
+                for (int j = 0; j < Chessboard.Width; j++)
                 {
                     DrawPiece(this.ThisGame.gameBoard.Entity[i, j]);
                 }
@@ -465,12 +454,16 @@ namespace HJZBYSJ.View
                 {
                     this.ThisGame.gameName = frmSetName.GameName;
                 }
-                this.ThisGame.gameBoardXmlStr = GameUtil.ErWeiArrayToXMLStr(Chessboard.GameBoardEnityToStringArray(this.ThisGame.gameBoard.Entity));
+                this.ThisGame.gameBoardXmlStr = GameUtil.ErWeiArrayToXMLStr(this.ThisGame.gameBoard.GameBoardEnityToStringArray(this.ThisGame.gameBoard.Entity));
                 if (GameUtil.Add(this.ThisGame))
                 {
                     MessageBox.Show("保存成功！");
                 }                
             }
+        }
+
+        private void FormGame_Load(object sender, EventArgs e)
+        {
         }
     }
 }

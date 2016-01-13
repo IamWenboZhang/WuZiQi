@@ -20,8 +20,8 @@ E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.View.FormMenu.r
 E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.View.FormRoom.resources
 E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.Properties.Resources.resources
 E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.csproj.GenerateResource.Cache
-E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.csprojResolveAssemblyReference.cache
 E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\bin\Debug\MrOwlLibrary.dll
 E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\bin\Debug\MrOwlLibrary.pdb
 E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.View.FormGameFile.resources
 E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.View.FormSetGameFileName.resources
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Debug\HJZBYSJ.csprojResolveAssemblyReference.cache

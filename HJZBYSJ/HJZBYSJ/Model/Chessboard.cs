@@ -21,9 +21,9 @@ namespace HJZBYSJ.Model
         public Chessboard()
         {
             //将棋盘实体内的棋子颜色全部赋值为None
-            for (int i = 0; i < Width; i++)
+            for (int i = 0; i < Hight; i++)
             {
-                for (int j = 0; j < Hight; j++)
+                for (int j = 0; j < Width; j++)
                 {
                     this.Entity[i, j] = new ChessPiece(i,j,ChessPieceType.None);
                 }
@@ -68,7 +68,7 @@ namespace HJZBYSJ.Model
         //    return result;
         //}
 
-        public static string[][] GameBoardEnityToStringArray(ChessPiece[,] Entity)
+        public string[][] GameBoardEnityToStringArray(ChessPiece[,] Entity)
         {
             string[][] result = new string[Hight][];
             for (int i = 0 ; i < Hight; i++)
@@ -86,13 +86,13 @@ namespace HJZBYSJ.Model
             return result;
         }
 
-        public static ChessPiece[,] StringArrayToGameBoardEnity(string[][] str)
+        public ChessPiece[,] StringArrayToGameBoardEnity(string[][] str)
         {
             ChessPiece[,] result = new ChessPiece[Width, Hight];
             //将棋盘实体内的棋子颜色全部赋值为None
-            for (int i = 0; i < Width; i++)
+            for (int i = 0; i < Hight; i++)
             {
-                for (int j = 0; j < Hight; j++)
+                for (int j = 0; j < Width; j++)
                 {
                     result[i, j] = new ChessPiece();
                 }

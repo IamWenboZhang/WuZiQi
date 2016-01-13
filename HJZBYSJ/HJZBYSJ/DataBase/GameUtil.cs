@@ -25,8 +25,7 @@ namespace HJZBYSJ.DataBase
         public int step = 0;
         //当前游戏是否有人胜利
         public bool isWin = false;
-        //当前游戏的当前落子方
-        public ChessPieceType currentColor = ChessPieceType.None;
+       
         //当前游戏的棋盘
         public Chessboard gameBoard = new Chessboard();
         //当前游戏的棋盘实体的XML字符串
@@ -40,6 +39,31 @@ namespace HJZBYSJ.DataBase
         public Player playerBlack = new Player(ChessPieceType.Black);
         //当前的玩家
         public Player CurrentPlayer;
+        private ChessPieceType _currentColor;
+        //当前游戏的当前落子方
+        public ChessPieceType CurrentColor
+        {
+            get { return _currentColor;}
+            set
+            {
+                _currentColor = value;
+                if (value == ChessPieceType.Black)
+                {
+                    _currentColor = ChessPieceType.Black;
+                    this.CurrentPlayer = this.playerBlack;
+                }
+                else if (value == ChessPieceType.White)
+                {
+                    _currentColor = ChessPieceType.White;
+                    this.CurrentPlayer = this.playerWhite;
+                }
+                else
+                {
+                    _currentColor = ChessPieceType.None;
+                    this.CurrentPlayer = new Player(ChessPieceType.None);
+                }
+            }
+        }
 
         public Game()
         {
@@ -56,7 +80,7 @@ namespace HJZBYSJ.DataBase
             }
             this.step = step;
             this.isWin = isWin;
-            this.currentColor = currentColor;
+            this.CurrentColor = currentColor;
             this.thisGameModel = thisGameModel;
             this.gameBoard = new Chessboard();
             switch (this.thisGameModel)
@@ -156,17 +180,17 @@ namespace HJZBYSJ.DataBase
                             game.gameBoardXmlStr = dr["GameBoardXmlStr"].ToString();
                             string[][] tmp;
                             tmp = GameUtil.XMLStrToErWeiArray(game.gameBoardXmlStr);
-                            game.gameBoard.Entity = Chessboard.StringArrayToGameBoardEnity(tmp);
+                            game.gameBoard.Entity = game.gameBoard.StringArrayToGameBoardEnity(tmp);
                             switch(dr["CurrentColor"].ToString())
                             {
                                 case "Black":
-                                    game.currentColor = ChessPieceType.Black;
+                                    game.CurrentColor = ChessPieceType.Black;
                                     break;
                                 case "White":
-                                    game.currentColor = ChessPieceType.White;
+                                    game.CurrentColor = ChessPieceType.White;
                                     break;
                                 case "None":
-                                    game.currentColor = ChessPieceType.None;
+                                    game.CurrentColor = ChessPieceType.None;
                                     break;
                             }
                             switch (dr["GameWiner"].ToString())
@@ -233,7 +257,7 @@ namespace HJZBYSJ.DataBase
                     MrOwlDB_SQLserver.AddCmdParameter(cmd, "@GameName", DbType.AnsiString, 40, a.gameName);
                     MrOwlDB_SQLserver.AddCmdParameter(cmd, "@Step", DbType.Int32, 4, a.step);
                     MrOwlDB_SQLserver.AddCmdParameter(cmd, "@IsWin", DbType.Boolean, 4, a.isWin);
-                    MrOwlDB_SQLserver.AddCmdParameter(cmd, "@CurrentColor", DbType.AnsiString, 10, a.currentColor);
+                    MrOwlDB_SQLserver.AddCmdParameter(cmd, "@CurrentColor", DbType.AnsiString, 10, a.CurrentColor);
                     MrOwlDB_SQLserver.AddCmdParameter(cmd, "@GameBoardXmlStr", DbType.AnsiString, 8000, a.gameBoardXmlStr);
                     MrOwlDB_SQLserver.AddCmdParameter(cmd, "@GameWiner", DbType.AnsiString, 10, a.Winer.Color);
                     MrOwlDB_SQLserver.AddCmdParameter(cmd, "@GameModel", DbType.AnsiString, 20, a.thisGameModel);
