@@ -16,11 +16,11 @@ namespace HJZBYSJ.View
 {
     public partial class FormLoad : Form
     {
-        public MrOwlTCPClient mrowlTcpClient = new MrOwlTCPClient();
-        public Player ThisPlayer;
+        //public MrOwlTCPClient mrowlTcpClient = new MrOwlTCPClient();
+        //public Player ThisPlayer;
         public string ServerIP = "";
         public string NickName = "";
-        Thread listenThread;
+        public Thread listenThread;
 
         public FormLoad()
         {
@@ -36,17 +36,17 @@ namespace HJZBYSJ.View
                 IPAddress ipadd;
                 if (MrOwlNetWork.GetLocalIP(out ipadd))
                 {
-                    mrowlTcpClient = new MrOwlTCPClient(ipadd, "4566");
-                    mrowlTcpClient.FuncChuLiMessage = DealMsg;
+                    Program.ThisGameMrowlTcpClient = new MrOwlTCPClient(ipadd, "4566");
+                    Program.ThisGameMrowlTcpClient.FuncChuLiMessage = DealMsg;
                 }
-                if (mrowlTcpClient.ConnectSever(ServerIP, "4566"))
+                if (Program.ThisGameMrowlTcpClient.ConnectSever(ServerIP, "4566"))
                 {
-                    ThisPlayer = new Player(ipadd.ToString(), NickName, ChessPieceType.None);
-                    listenThread = new Thread(new ThreadStart(mrowlTcpClient.GetMessage));
+                    Program.ThisGamePlayer = new Player(ipadd.ToString(), NickName, ChessPieceType.None);
+                    listenThread = new Thread(new ThreadStart(Program.ThisGameMrowlTcpClient.GetMessage));
                     listenThread.IsBackground = true;
                     listenThread.Start();
-                    MessagePackage sendPkg = new MessagePackage("LianJie", "用户登录：" + NickName, ThisPlayer.IP, ThisPlayer.NickName, DateTime.Now.ToString("yy-MM-dd hh:mm:ss"));
-                    mrowlTcpClient.SendMessage(sendPkg.MsgPkgToString());
+                    MessagePackage sendPkg = new MessagePackage("LianJie", "用户登录：" + NickName, Program.ThisGamePlayer.IP, Program.ThisGamePlayer.NickName, DateTime.Now.ToString("yy-MM-dd hh:mm:ss"));
+                    Program.ThisGameMrowlTcpClient.SendMessage(sendPkg.MsgPkgToString());
                 }
             }
             else
@@ -58,13 +58,11 @@ namespace HJZBYSJ.View
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            //Program.frmMenu.Show();
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
 
-        private void FormLoad_Load(object sender, EventArgs e)
-        {
-        }
 
         private void DealMsg(string msg)
         {
@@ -72,11 +70,37 @@ namespace HJZBYSJ.View
             switch (dealMsgPkg.Command)
             {     
                 case "LianJieResponse": 
-                    this.DialogResult = DialogResult.OK;
-                    this.listenThread.Abort();
-                    this.Close();
-                    break;
+                    //this.DialogResult = DialogResult.OK;
+                    //this.listenThread.Abort();
+                    if (dealMsgPkg.Data == "Success")
+                    {
+                        NavigateToFormRoom();
+                    }
+                    else
+                    {
+                        MessageBox.Show("用户名重复！");
+                    }
+                    break;       
             }
+        }
+
+        private void NavigateToFormRoom()
+        {
+            this.Invoke(new MethodInvoker(delegate()
+            {
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }));
+        }
+
+        private void FormLoad_Load(object sender, EventArgs e)
+        {
+            IPAddress ipadd1;
+            if (MrOwlNetWork.GetLocalIP(out ipadd1))
+            {
+                this.textBoxServerIP.Text = ipadd1.ToString();
+            }
+            this.textBoxNickName.Focus();
         }
     }
 }

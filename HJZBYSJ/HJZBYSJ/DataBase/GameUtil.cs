@@ -92,8 +92,8 @@ namespace HJZBYSJ.DataBase
                 case GameModel.Online:                    
                     break;
                 case GameModel.SingleAgainsComputer:
-                    this.playerBlack = new Player(localip, "电脑", ChessPieceType.Black);
-                    this.playerWhite = new Player(localip, "Me", ChessPieceType.White);
+                    this.playerBlack = new Player(localip, "Me", ChessPieceType.Black);
+                    this.playerWhite = new Player(localip, "电脑", ChessPieceType.White);
                     break;
             }
             if (currentColor == ChessPieceType.Black)
@@ -273,6 +273,33 @@ namespace HJZBYSJ.DataBase
                 return false;
             }
         }
+
+        // 删除游戏存档
+        public static bool Delete(int gameId)
+        {
+            try
+            {
+                DbConnection con = MrOwlDB_SQLserver.GetDbConnection();
+                using (con)
+                {
+                    con.Open();
+                    DbCommand cmd = con.CreateCommand();
+
+                    // 删除Airport表
+                    cmd.CommandText = "Delete From Game Where GameID = @GameID";
+                    MrOwlDB_SQLserver.AddCmdParameter(cmd, "@GameID", DbType.Int32, 4, gameId);
+                    cmd.ExecuteNonQuery();
+
+                    return true;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show("ProjectUtil.Delete函数失败:" + ex.Message);
+                return false;
+            }
+        }
+
 
         // 将二维数组序列化成XML
         public static string ErWeiArrayToXMLStr(string[][] str)

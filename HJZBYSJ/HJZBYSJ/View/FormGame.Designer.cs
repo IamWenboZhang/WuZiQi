@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormGame));
             this.pictureBoxGameSence = new System.Windows.Forms.PictureBox();
             this.groupBoxWhite = new System.Windows.Forms.GroupBox();
             this.labelUserIPWhite = new System.Windows.Forms.Label();
@@ -45,7 +46,8 @@
             this.labelCurrentColor = new System.Windows.Forms.Label();
             this.btnRevert = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
-            this.textBoxMsg = new System.Windows.Forms.TextBox();
+            this.listBoxMsg = new System.Windows.Forms.ListBox();
+            this.btnReturn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGameSence)).BeginInit();
             this.groupBoxWhite.SuspendLayout();
             this.groupBoxBlack.SuspendLayout();
@@ -67,7 +69,7 @@
             this.groupBoxWhite.Controls.Add(this.label3);
             this.groupBoxWhite.Controls.Add(this.labelUserNameWhite);
             this.groupBoxWhite.Controls.Add(this.label1);
-            this.groupBoxWhite.Location = new System.Drawing.Point(0, 6);
+            this.groupBoxWhite.Location = new System.Drawing.Point(0, 371);
             this.groupBoxWhite.Name = "groupBoxWhite";
             this.groupBoxWhite.Size = new System.Drawing.Size(152, 81);
             this.groupBoxWhite.TabIndex = 1;
@@ -79,9 +81,8 @@
             this.labelUserIPWhite.AutoSize = true;
             this.labelUserIPWhite.Location = new System.Drawing.Point(35, 46);
             this.labelUserIPWhite.Name = "labelUserIPWhite";
-            this.labelUserIPWhite.Size = new System.Drawing.Size(95, 12);
+            this.labelUserIPWhite.Size = new System.Drawing.Size(0, 12);
             this.labelUserIPWhite.TabIndex = 3;
-            this.labelUserIPWhite.Text = "110.110.110.110";
             // 
             // label3
             // 
@@ -97,9 +98,8 @@
             this.labelUserNameWhite.AutoSize = true;
             this.labelUserNameWhite.Location = new System.Drawing.Point(47, 26);
             this.labelUserNameWhite.Name = "labelUserNameWhite";
-            this.labelUserNameWhite.Size = new System.Drawing.Size(77, 12);
+            this.labelUserNameWhite.Size = new System.Drawing.Size(0, 12);
             this.labelUserNameWhite.TabIndex = 1;
-            this.labelUserNameWhite.Text = "一二三四五六";
             // 
             // label1
             // 
@@ -116,7 +116,7 @@
             this.groupBoxBlack.Controls.Add(this.label4);
             this.groupBoxBlack.Controls.Add(this.label6);
             this.groupBoxBlack.Controls.Add(this.labelUserNameBlack);
-            this.groupBoxBlack.Location = new System.Drawing.Point(0, 378);
+            this.groupBoxBlack.Location = new System.Drawing.Point(0, 6);
             this.groupBoxBlack.Name = "groupBoxBlack";
             this.groupBoxBlack.Size = new System.Drawing.Size(152, 75);
             this.groupBoxBlack.TabIndex = 2;
@@ -128,9 +128,8 @@
             this.labelUserIPBlack.AutoSize = true;
             this.labelUserIPBlack.Location = new System.Drawing.Point(35, 53);
             this.labelUserIPBlack.Name = "labelUserIPBlack";
-            this.labelUserIPBlack.Size = new System.Drawing.Size(95, 12);
+            this.labelUserIPBlack.Size = new System.Drawing.Size(0, 12);
             this.labelUserIPBlack.TabIndex = 7;
-            this.labelUserIPBlack.Text = "888.888.888.888";
             // 
             // label4
             // 
@@ -155,14 +154,13 @@
             this.labelUserNameBlack.AutoSize = true;
             this.labelUserNameBlack.Location = new System.Drawing.Point(53, 28);
             this.labelUserNameBlack.Name = "labelUserNameBlack";
-            this.labelUserNameBlack.Size = new System.Drawing.Size(77, 12);
+            this.labelUserNameBlack.Size = new System.Drawing.Size(0, 12);
             this.labelUserNameBlack.TabIndex = 5;
-            this.labelUserNameBlack.Text = "一二三四五六";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 100);
+            this.label2.Location = new System.Drawing.Point(6, 93);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(77, 12);
             this.label2.TabIndex = 3;
@@ -171,16 +169,18 @@
             // labelStep
             // 
             this.labelStep.AutoSize = true;
-            this.labelStep.Location = new System.Drawing.Point(89, 125);
+            this.labelStep.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.labelStep.ForeColor = System.Drawing.Color.DarkGreen;
+            this.labelStep.Location = new System.Drawing.Point(89, 93);
             this.labelStep.Name = "labelStep";
-            this.labelStep.Size = new System.Drawing.Size(11, 12);
+            this.labelStep.Size = new System.Drawing.Size(19, 19);
             this.labelStep.TabIndex = 4;
             this.labelStep.Text = "1";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 150);
+            this.label5.Location = new System.Drawing.Point(6, 141);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(77, 12);
             this.label5.TabIndex = 5;
@@ -189,15 +189,16 @@
             // labelCurrentColor
             // 
             this.labelCurrentColor.AutoSize = true;
-            this.labelCurrentColor.Location = new System.Drawing.Point(89, 175);
+            this.labelCurrentColor.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.labelCurrentColor.Location = new System.Drawing.Point(89, 141);
             this.labelCurrentColor.Name = "labelCurrentColor";
-            this.labelCurrentColor.Size = new System.Drawing.Size(29, 12);
+            this.labelCurrentColor.Size = new System.Drawing.Size(40, 16);
             this.labelCurrentColor.TabIndex = 6;
             this.labelCurrentColor.Text = "黑方";
             // 
             // btnRevert
             // 
-            this.btnRevert.Location = new System.Drawing.Point(8, 342);
+            this.btnRevert.Location = new System.Drawing.Point(8, 295);
             this.btnRevert.Name = "btnRevert";
             this.btnRevert.Size = new System.Drawing.Size(133, 23);
             this.btnRevert.TabIndex = 7;
@@ -207,7 +208,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(8, 306);
+            this.btnSave.Location = new System.Drawing.Point(8, 266);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(133, 23);
             this.btnSave.TabIndex = 10;
@@ -215,22 +216,33 @@
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // textBoxMsg
+            // listBoxMsg
             // 
-            this.textBoxMsg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBoxMsg.Location = new System.Drawing.Point(0, 200);
-            this.textBoxMsg.Multiline = true;
-            this.textBoxMsg.Name = "textBoxMsg";
-            this.textBoxMsg.ReadOnly = true;
-            this.textBoxMsg.Size = new System.Drawing.Size(152, 93);
-            this.textBoxMsg.TabIndex = 11;
+            this.listBoxMsg.FormattingEnabled = true;
+            this.listBoxMsg.ItemHeight = 12;
+            this.listBoxMsg.Location = new System.Drawing.Point(8, 160);
+            this.listBoxMsg.Name = "listBoxMsg";
+            this.listBoxMsg.Size = new System.Drawing.Size(133, 100);
+            this.listBoxMsg.TabIndex = 11;
+            // 
+            // btnReturn
+            // 
+            this.btnReturn.Enabled = false;
+            this.btnReturn.Location = new System.Drawing.Point(8, 324);
+            this.btnReturn.Name = "btnReturn";
+            this.btnReturn.Size = new System.Drawing.Size(133, 23);
+            this.btnReturn.TabIndex = 12;
+            this.btnReturn.Text = "返回大厅";
+            this.btnReturn.UseVisualStyleBackColor = true;
+            this.btnReturn.Click += new System.EventHandler(this.btnReturn_Click);
             // 
             // FormGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(606, 462);
-            this.Controls.Add(this.textBoxMsg);
+            this.Controls.Add(this.btnReturn);
+            this.Controls.Add(this.listBoxMsg);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnRevert);
             this.Controls.Add(this.labelCurrentColor);
@@ -241,11 +253,12 @@
             this.Controls.Add(this.groupBoxWhite);
             this.Controls.Add(this.pictureBoxGameSence);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormGame";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FormGame";
+            this.Text = "C#五子棋";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormGame_FormClosing);
             this.Load += new System.EventHandler(this.FormGame_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGameSence)).EndInit();
@@ -277,6 +290,7 @@
         private System.Windows.Forms.Label labelCurrentColor;
         private System.Windows.Forms.Button btnRevert;
         private System.Windows.Forms.Button btnSave;
-        private System.Windows.Forms.TextBox textBoxMsg;
+        private System.Windows.Forms.ListBox listBoxMsg;
+        private System.Windows.Forms.Button btnReturn;
     }
 }

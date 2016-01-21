@@ -53,5 +53,16 @@ namespace HJZBYSJ.View
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
+
+        private void btnDel_Click(object sender, EventArgs e)
+        {
+            if (gridGameView.SelectedRows.Count > 0)
+            {
+                SelectedIndex = gridGameView.SelectedRows[0].Index;
+                this.SelectedGameID = Convert.ToInt32(gridGameView.Rows[SelectedIndex].Cells["GameID"].Value);
+                GameUtil.Delete(this.SelectedGameID);
+                UpdateProjectList();
+            }
+        }
     }
 }

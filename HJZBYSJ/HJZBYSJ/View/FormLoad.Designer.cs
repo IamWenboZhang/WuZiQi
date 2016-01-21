@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormLoad));
             this.btnLoad = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.textBoxServerIP = new System.Windows.Forms.TextBox();
@@ -91,8 +92,10 @@
             // 
             // FormLoad
             // 
+            this.AcceptButton = this.btnLoad;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(284, 262);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -101,11 +104,12 @@
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnLoad);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormLoad";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FormLoad";    
+            this.Text = "登录";
             this.Load += new System.EventHandler(this.FormLoad_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

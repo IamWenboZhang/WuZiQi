@@ -15,9 +15,12 @@ namespace HJZBYSJ
 {
     static class Program
     {
-        private static MrOwlTCPClient ThisGameMrowlTcpClient = new MrOwlTCPClient();
-        private static Player ThisGamePlayer;
-        private static Thread listenThread = new Thread(new ThreadStart(ThisGameMrowlTcpClient.GetMessage));
+        public static MrOwlTCPClient ThisGameMrowlTcpClient;
+        public static Player ThisGamePlayer = new Player(ChessPieceType.None);
+        public static FormMenu frmMenu ;
+        public static FormLoad frmLoad;
+        public static FormRoom frmRoom;
+        public static FormGame frmGame;
         /// <summary>
         /// 应用程序的主入口点。
         /// </summary>
@@ -45,92 +48,8 @@ namespace HJZBYSJ
             }
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            DoInFormMenu();
-        }
-
-        //FormMenu的显示与操作
-        private static void DoInFormMenu()
-        {
-            FormMenu frmMenu = new FormMenu();
-            DialogResult result = frmMenu.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                Game tmpGame = new Game(1, false, ChessPieceType.Black, GameModel.DoubleOffLine);
-                FormGame frmGame = new FormGame (tmpGame);
-                Application.Run(frmGame);
-            }
-            else if (result == DialogResult.Ignore)
-            {
-                DoInFormLoad();
-            }
-            else if (result == DialogResult.Yes)
-            {
-                FormGame frmGame = new FormGame(frmMenu.LoadGame);
-                Application.Run(frmGame);
-            }
-            else if (result == DialogResult.No)
-            {
-                Game tmpGame = new Game(1, false, ChessPieceType.Black, GameModel.SingleAgainsComputer);
-                FormGame frmGame = new FormGame(tmpGame);
-                Application.Run(frmGame);
-            }
-            else
-            {
-                Application.ExitThread();
-                Application.Exit();
-            }
-        }
-
-        //FormLoad的显示与操作
-        private static void DoInFormLoad()
-        {
-            FormLoad frmLoad = new FormLoad();
-            listenThread.IsBackground = true;
-            listenThread.Start();
-            DialogResult result = frmLoad.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                ThisGameMrowlTcpClient = frmLoad.mrowlTcpClient;
-                ThisGamePlayer = frmLoad.ThisPlayer;
-                DoInFormRoom();
-            }
-            else
-            {
-                MessagePackage sendMsgPkg = new MessagePackage("TuiChu", ThisGamePlayer.NickName,
-                ThisGamePlayer.IP, ThisGamePlayer.NickName, DateTime.Now.ToString("yy-MM-dd HH:mm:ss"));
-                ThisGameMrowlTcpClient.SendMessage(sendMsgPkg.MsgPkgToString());
-                ThisGameMrowlTcpClient.Close();
-                frmLoad.Dispose();
-                Application.ExitThread();
-                Application.Exit();
-            }
-        }
-
-        //FormRoom的显示与操作
-        private static void DoInFormRoom()
-        {
-            FormRoom frmRoom = new FormRoom();
-            frmRoom.mrowlTcpClient = ThisGameMrowlTcpClient;
-            frmRoom.ThisPlayer = ThisGamePlayer;           
-            DialogResult result = frmRoom.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                FormGame frmGame = new FormGame();
-                frmGame.mrowlTCPClient = ThisGameMrowlTcpClient;
-                frmGame.thisPlayer = ThisGamePlayer;
-                frmGame.ThisGame.thisGameModel = GameModel.Online;
-                Application.Run(frmGame);    
-            }
-            else
-            {
-                MessagePackage sendMsgPkg = new MessagePackage("TuiChu", frmRoom.ThisPlayer.NickName,
-                frmRoom.ThisPlayer.IP, frmRoom.ThisPlayer.NickName, DateTime.Now.ToString("yy-MM-dd HH:mm:ss"));
-                frmRoom.mrowlTcpClient.SendMessage(sendMsgPkg.MsgPkgToString());
-                frmRoom.mrowlTcpClient.Close();
-                frmRoom.Dispose();
-                Application.ExitThread();
-                Application.Exit();
-            }
-        }
+            frmMenu =  new FormMenu();
+            Application.Run(frmMenu);
+        }      
     }
 }

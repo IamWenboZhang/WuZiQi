@@ -48,14 +48,24 @@ namespace HJZBYSJ_Server
             listenerTheard.Start();
             this.btnStar.Enabled = false;
             MessageBox.Show("正在监听:IP:" + this.mrowlTCPListener.localIP + "端口:" + this.mrowlTCPListener.localPort, "监听已经启动");
-        }
+        }        
 
-        private void btnExit_Click(object sender, EventArgs e)
+        //查找用户列表里是否有重复的名字
+        private bool CheckisRepeat(string name)
         {
-            Application.ExitThread();
-            Application.Exit();
+            bool result = false;
+            for (int i = 0; i < UserList.Count; i++)
+            {
+                if (UserList[i].NickName.CompareTo(name) == 0)
+                {
+                    result = true;
+                    break;
+                }
+            }
+            return result;
         }
 
+        //将用户列表里的所有用户名序列化为字符串
         private string GetUserListString()
         {
             string result = "";
@@ -66,12 +76,13 @@ namespace HJZBYSJ_Server
             return result;
         }
 
+        //将房间列表里的所有房间名序列化为字符串
         private string GetRoomListString()
         {
             string result = "";
             for (int i = 0; i < RoomList.Count; i++)
             {
-                result += RoomList[i].RoomName + "}";
+                result += RoomList[i].RoomName + "|";
             }
             return result;
         }
@@ -98,6 +109,7 @@ namespace HJZBYSJ_Server
                 this.listBoxRoom.Items.Clear();
                 for (int i = 0; i < RoomList.Count; i++)
                 {
+                    RoomList[i].RoomID = i;
                     this.listBoxRoom.Items.Add(RoomList[i].RoomName);                    
                 }
                 for (int i = 0; i < UserList.Count; i++)
@@ -123,13 +135,32 @@ namespace HJZBYSJ_Server
             mrowlTCPListener.SendToClient(userSocket, exitMsgPkg.MsgPkgToString());
         }
 
-        private bool SearchUserByIP(string ip,out Player player)
+        //根据消息发送者的IP和昵称在RoomList里面寻找对应的房间
+        private bool SearchRoomByIP(string ip, string name, out Room room)
+        {
+            room = new Room();
+            bool isSuccess = false;
+            for (int i = 0; i < RoomList.Count; i++)
+            {
+                if((RoomList[i].RoomMaster.IP==ip && RoomList[i].RoomMaster.NickName == name)
+                    || (RoomList[i].RoomMember.IP == ip && RoomList[i].RoomMember.NickName == name))
+                {
+                    room = RoomList[i];
+                    isSuccess = true;
+                    break;
+                }
+            }
+            return isSuccess;
+        }
+
+        //根据消息发送者的IP和昵称在UserList里面寻找对应的玩家
+        private bool SearchUserByIP(string ip,string name,out Player player)
         {
             bool isSuccess = false;
             player = new Player(ChessPieceType.None);
             for (int i = 0; i < UserList.Count; i++)
             {
-                if (UserList[i].IP == ip)
+                if (UserList[i].IP == ip && UserList[i].NickName == name)
                 {
                     player = UserList[i];
                     isSuccess = true;
@@ -148,72 +179,273 @@ namespace HJZBYSJ_Server
                     Player tmpUser = new Player(ChessPieceType.None);
                     tmpUser.IP = delPkg.SenderIP;
                     tmpUser.NickName = delPkg.SenderName;
-                    tmpUser.UserSocket = mrowlTCPListener.clietSockets[mrowlTCPListener.clietSockets.Count - 1];
-                    UserList.Add(tmpUser);
-                    RefreshUserList();
-                    MessagePackage lianjieresponsePkg = new MessagePackage("LianJieResponse", "Success",
-                        this.mrowlTCPListener.localIP.ToString(), "Server", DateTime.Now.ToString("yy-MM-dd HH:mm:ss"));
-                    this.mrowlTCPListener.SendToClient(tmpUser.UserSocket, lianjieresponsePkg.MsgPkgToString());
+                    tmpUser.UserSocket = mrowlTCPListener.clientSockets[mrowlTCPListener.clientSockets.Count - 1];
+                    if (!CheckisRepeat(delPkg.SenderName))
+                    {
+                        UserList.Add(tmpUser);
+                        RefreshUserList();
+                        SendLianJieResponse(tmpUser.UserSocket, true);
+                    }
+                    else
+                    {
+                        SendLianJieResponse(tmpUser.UserSocket, false);
+                    }
                     break;
                 case "TuiChu":
-                    for (int i = 0; i < UserList.Count; i++)
+                    Player quitUser = new Player (ChessPieceType.None);
+                    Room quitRoom = new Room();
+                    if (SearchUserByIP(delPkg.SenderIP, delPkg.SenderName, out quitUser))
                     {
-                        if (UserList[i].NickName.CompareTo(delPkg.SenderName) == 0)
+                        quitUser.UserSocket.Close();                        
+                        UserList.Remove(quitUser);
+                        if (SearchRoomByIP(delPkg.SenderIP, delPkg.SenderName, out quitRoom))
                         {
-                            UserList[i].UserSocket.Close();
-                            mrowlTCPListener.keepConnect = false;
-                            UserList.RemoveAt(i);
-                        }
-                    }
-                    for (int i = 0; i < RoomList.Count; i++)
-                    {
-                        if (RoomList[i].RoomMaster.NickName.CompareTo(delPkg.SenderName) == 0)
-                        {
-                            RoomList.RemoveAt(i);
-                        }
-                        if (RoomList[i].RoomMember.NickName.CompareTo(delPkg.SenderName) == 0)
-                        {
-                            RoomList[i].RoomMemberNum = RoomList[i].RoomMemberNum - 1;
+                            if (quitRoom.RoomMemberNum == 2)
+                            {
+                                if (quitUser.NickName == quitRoom.RoomMaster.NickName && quitUser.IP == quitRoom.RoomMaster.IP)
+                                {
+                                    SendExitRoomResponse(quitRoom, true);
+                                }
+                                else if (quitUser.NickName == quitRoom.RoomMember.NickName && quitUser.IP == quitRoom.RoomMember.IP)
+                                {
+                                    SendExitRoomResponse(quitRoom, false);
+                                }
+                            }
+                            RoomList.Remove(quitRoom);
                         }
                     }
                     RefreshUserList();
                     RefreshRoomList();
                     break;
-                case "UserList":break;
-                case "LuoZi":break;
+                case "ExitRoom":
+                    Player exitUser = new Player(ChessPieceType.None);
+                    Room exitRoom = new Room();
+                    if (SearchUserByIP(delPkg.SenderIP, delPkg.SenderName, out exitUser))
+                    {
+                        if (SearchRoomByIP(delPkg.SenderIP, delPkg.SenderName, out exitRoom))
+                        {
+                            if (exitRoom.RoomMemberNum == 2)
+                            {
+                                if (exitUser.NickName == exitRoom.RoomMaster.NickName && exitUser.IP == exitRoom.RoomMaster.IP)
+                                {
+                                    SendExitRoomResponse(exitRoom, true);
+                                }
+                                else if (exitUser.NickName == exitRoom.RoomMember.NickName && exitUser.IP == exitRoom.RoomMember.IP)
+                                {
+                                    SendExitRoomResponse(exitRoom, false);
+                                }
+                            }
+                            RoomList.Remove(exitRoom);
+                        }
+                    }
+                    RefreshRoomList();
+                    break;
+                case "LuoZi":
+                    Room room = new Room();
+                    if (SearchRoomByIP(delPkg.SenderIP, delPkg.SenderName, out room))
+                    {
+                        SendLuoZiResponse(room, delPkg.Data);
+                    }
+                    break;
                 case "CreatRoom":                  
                     Player roomMaster = new Player (ChessPieceType.None);
-                    if (SearchUserByIP(delPkg.SenderIP,out roomMaster))
+                    if (SearchUserByIP(delPkg.SenderIP,delPkg.SenderName,out roomMaster))
                     {
                         roomMaster.Color = ChessPieceType.Black;
                         Room tmpRoom = new Room(roomMaster, this.RoomList.Count);
                         this.RoomList.Add(tmpRoom);
                         RefreshRoomList();
-                        MessagePackage responsePkg = new MessagePackage("CreatRoomResponse", "Success",
-                        this.mrowlTCPListener.localIP.ToString(), "Server", DateTime.Now.ToString("yy-MM-dd HH:mm:ss"));
-                        this.mrowlTCPListener.SendToClient(roomMaster.UserSocket, responsePkg.MsgPkgToString());
-                    }                 
+                        SendCreatRoomResponse(roomMaster.UserSocket);
+                    }        
                     break;
-                case "CreatRoomResponse": break;
                 case "GetInRoom":
                     Player roomMemeber = new Player(ChessPieceType.None);
-                    if (SearchUserByIP(delPkg.SenderIP, out roomMemeber))
+                    Room resultRoom = new Room();
+                    if (SearchUserByIP(delPkg.SenderIP,delPkg.SenderName,out roomMemeber))
                     {
                         roomMemeber.Color = ChessPieceType.White;
-                        int index = int.Parse(delPkg.Data);
-                        if (index < RoomList.Count && RoomList[index].RoomMemberNum == 1)
+                        for (int i = 0; i < RoomList.Count; i++)
                         {
-                            RoomList[index].AddMember(roomMemeber);
-                            MessagePackage responsePkg = new MessagePackage("GetInRoomResponse", "Success_" + roomMemeber.NickName + "_" + roomMemeber.IP,
-                            this.mrowlTCPListener.localIP.ToString(), "Server", DateTime.Now.ToString("yy-MM-dd HH:mm:ss"));
-                            this.mrowlTCPListener.SendToClient(RoomList[index].RoomMaster.UserSocket, responsePkg.MsgPkgToString());
-                            this.mrowlTCPListener.SendToClient(RoomList[index].RoomMember.UserSocket, responsePkg.MsgPkgToString());
+                            string roomID = RoomList[i].RoomName.Substring(0, 3);
+                            if (roomID == delPkg.Data)
+                            {
+                                resultRoom = RoomList[i];
+                                resultRoom.AddMember(roomMemeber);
+                            }
+                        }
+                        RefreshRoomList();
+                        SendGetInRoomResponse(resultRoom);
+                    }
+                    break;
+                case "RequestRoomList":
+                    Player responseUserRoomList =new Player (ChessPieceType.None);
+                    if (SearchUserByIP(delPkg.SenderIP,delPkg.SenderName,out responseUserRoomList))
+                    {
+                        SendRoomList(responseUserRoomList.UserSocket);
+                    }
+                    break;
+                case "RequestUserList":
+                    Player responseUserUserList =new Player (ChessPieceType.None);
+                    if (SearchUserByIP(delPkg.SenderIP, delPkg.SenderName, out responseUserUserList))
+                    {
+                        SendUserList(responseUserUserList.UserSocket);
+                    }
+                    break;
+                case "RequestRevertGame":
+                    Player RevertUser = new Player(ChessPieceType.None);
+                    Room RevertRoom = new Room();
+                    if (SearchUserByIP(delPkg.SenderIP, delPkg.SenderName, out RevertUser))
+                    {
+                        if (SearchRoomByIP(delPkg.SenderIP, delPkg.SenderName, out RevertRoom))
+                        {
+                            if (RevertRoom.RoomMemberNum == 2)
+                            {
+                                if (RevertUser.NickName == RevertRoom.RoomMaster.NickName && RevertUser.IP == RevertRoom.RoomMaster.IP)
+                                {
+                                    SendRevertGameRequest(RevertRoom, true);
+                                }
+                                else if (RevertUser.NickName == RevertRoom.RoomMember.NickName && RevertUser.IP == RevertRoom.RoomMember.IP)
+                                {
+                                    SendRevertGameRequest(RevertRoom, false);
+                                }
+                            }
                         }
                     }
                     break;
-                case "GetInRoomResponse": break;
-                case "RoomList": break;
-                case "ExitRoom": break;
+                case "RevertGameResponse":
+                    Player RevertResponseUser = new Player(ChessPieceType.None);
+                    Room RevertResponseRoom = new Room();
+                    if (SearchUserByIP(delPkg.SenderIP, delPkg.SenderName, out RevertResponseUser))
+                    {
+                        if (SearchRoomByIP(delPkg.SenderIP, delPkg.SenderName, out RevertResponseRoom))
+                        {
+                            if (RevertResponseRoom.RoomMemberNum == 2)
+                            {
+                                if (delPkg.Data == "Yes")
+                                {
+                                    SendRevertGameResult(RevertResponseRoom, true);
+                                }
+                                else if (delPkg.Data == "No")
+                                {
+                                    SendRevertGameResult(RevertResponseRoom, false);
+                                }
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+
+        //窗体关闭事件
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            for (int i = 0; i < UserList.Count; i++)
+            {
+                SendServerQuit(UserList[i].UserSocket);
+            }
+            mrowlTCPListener.Close();
+        }
+
+
+        //连接请求的响应
+        private void SendLianJieResponse(Socket clientSocket,bool isSuccess)
+        {
+            if (isSuccess)
+            {
+                MessagePackage lianjieresponsePkg = new MessagePackage("LianJieResponse", "Success",
+                       this.mrowlTCPListener.localIP.ToString(), "Server", DateTime.Now.ToString("yy-MM-dd HH:mm:ss"));
+                this.mrowlTCPListener.SendToClient(clientSocket, lianjieresponsePkg.MsgPkgToString());
+            }
+            else 
+            {
+                MessagePackage lianjieresponsePkg = new MessagePackage("LianJieResponse", "False@",
+                       this.mrowlTCPListener.localIP.ToString(), "Server", DateTime.Now.ToString("yy-MM-dd HH:mm:ss"));
+                this.mrowlTCPListener.SendToClient(clientSocket, lianjieresponsePkg.MsgPkgToString());
+            }
+            
+        }
+
+        //发送创建房间的响应
+        private void SendCreatRoomResponse(Socket clientSocket)
+        {
+            MessagePackage responsePkg = new MessagePackage("CreatRoomResponse", "Success",
+                        this.mrowlTCPListener.localIP.ToString(), "Server", DateTime.Now.ToString("yy-MM-dd HH:mm:ss"));
+            this.mrowlTCPListener.SendToClient(clientSocket, responsePkg.MsgPkgToString());
+        }
+
+        //发送进入房间的响应
+        private void SendGetInRoomResponse(Room room)
+        {
+            MessagePackage responsePkg = new MessagePackage("GetInRoomResponse", MessagePackage.RoomInfoToString(room),
+                            this.mrowlTCPListener.localIP.ToString(), "Server", DateTime.Now.ToString("yy-MM-dd HH:mm:ss"));
+            this.mrowlTCPListener.SendToClient(room.RoomMaster.UserSocket, responsePkg.MsgPkgToString());
+            this.mrowlTCPListener.SendToClient(room.RoomMember.UserSocket, responsePkg.MsgPkgToString());
+        }
+
+        //发送退出房间的响应
+        private void SendExitRoomResponse(Room room,bool isMaster)
+        {
+            MessagePackage responsePkg = new MessagePackage("ExitRoomResponse", "",
+                            this.mrowlTCPListener.localIP.ToString(), "Server", DateTime.Now.ToString("yy-MM-dd HH:mm:ss"));
+            if (isMaster)
+            {
+                this.mrowlTCPListener.SendToClient(room.RoomMember.UserSocket, responsePkg.MsgPkgToString());
+            }
+            else
+            {
+                this.mrowlTCPListener.SendToClient(room.RoomMaster.UserSocket, responsePkg.MsgPkgToString());
+            }
+        }
+
+        //发送服务器关闭消息
+        private void SendServerQuit(Socket socket)
+        {
+            MessagePackage responsePkg = new MessagePackage("ServerQuit", "",
+                            this.mrowlTCPListener.localIP.ToString(), "Server", DateTime.Now.ToString("yy-MM-dd HH:mm:ss"));           
+            this.mrowlTCPListener.SendToClient(socket, responsePkg.MsgPkgToString());
+        }
+
+        //发送落子消息的响应
+        private void SendLuoZiResponse(Room room,string pieceInfoStr)
+        {
+            MessagePackage responsePkg = new MessagePackage("LuoZiResponse", pieceInfoStr,
+                          this.mrowlTCPListener.localIP.ToString(), "Server", DateTime.Now.ToString("yy-MM-dd HH:mm:ss"));
+            this.mrowlTCPListener.SendToClient(room.RoomMaster.UserSocket, responsePkg.MsgPkgToString());
+            this.mrowlTCPListener.SendToClient(room.RoomMember.UserSocket, responsePkg.MsgPkgToString());
+        }
+
+
+        //发送重新游戏的请求
+        private void SendRevertGameRequest(Room room, bool isMaster)
+        {
+            MessagePackage responsePkg = new MessagePackage("RequestRevertGame", MessagePackage.RoomInfoToString(room),
+                            this.mrowlTCPListener.localIP.ToString(), "Server", DateTime.Now.ToString("yy-MM-dd HH:mm:ss"));
+            if (isMaster)
+            {
+                this.mrowlTCPListener.SendToClient(room.RoomMember.UserSocket, responsePkg.MsgPkgToString());
+            }
+            else
+            {
+                this.mrowlTCPListener.SendToClient(room.RoomMaster.UserSocket, responsePkg.MsgPkgToString());
+            }
+        }
+
+        //发送重新游戏的判定结果
+        private void SendRevertGameResult(Room room,bool isOK)
+        {
+            if (isOK)
+            {
+                MessagePackage responsePkg = new MessagePackage("RevertGameResult", "Yes",
+                           this.mrowlTCPListener.localIP.ToString(), "Server", DateTime.Now.ToString("yy-MM-dd HH:mm:ss"));
+                this.mrowlTCPListener.SendToClient(room.RoomMaster.UserSocket, responsePkg.MsgPkgToString());
+                this.mrowlTCPListener.SendToClient(room.RoomMember.UserSocket, responsePkg.MsgPkgToString());
+            }
+            else
+            {
+                MessagePackage responsePkg = new MessagePackage("RevertGameResult", "No",
+                          this.mrowlTCPListener.localIP.ToString(), "Server", DateTime.Now.ToString("yy-MM-dd HH:mm:ss"));
+                this.mrowlTCPListener.SendToClient(room.RoomMaster.UserSocket, responsePkg.MsgPkgToString());
+                this.mrowlTCPListener.SendToClient(room.RoomMember.UserSocket, responsePkg.MsgPkgToString());
             }
         }
     }

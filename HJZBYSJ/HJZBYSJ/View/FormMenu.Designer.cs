@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMenu));
             this.btnSingle = new System.Windows.Forms.Button();
             this.btnOnline = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
@@ -37,27 +38,27 @@
             // 
             // btnSingle
             // 
-            this.btnSingle.Location = new System.Drawing.Point(105, 32);
+            this.btnSingle.Location = new System.Drawing.Point(105, 64);
             this.btnSingle.Name = "btnSingle";
             this.btnSingle.Size = new System.Drawing.Size(75, 23);
             this.btnSingle.TabIndex = 0;
-            this.btnSingle.Text = "单人游戏";
+            this.btnSingle.Text = "双人单机";
             this.btnSingle.UseVisualStyleBackColor = true;
             this.btnSingle.Click += new System.EventHandler(this.btnSingle_Click);
             // 
             // btnOnline
             // 
-            this.btnOnline.Location = new System.Drawing.Point(105, 130);
+            this.btnOnline.Location = new System.Drawing.Point(105, 152);
             this.btnOnline.Name = "btnOnline";
             this.btnOnline.Size = new System.Drawing.Size(75, 23);
             this.btnOnline.TabIndex = 1;
-            this.btnOnline.Text = "多人游戏";
+            this.btnOnline.Text = "网络对战";
             this.btnOnline.UseVisualStyleBackColor = true;
             this.btnOnline.Click += new System.EventHandler(this.btnOnline_Click);
             // 
             // btnExit
             // 
-            this.btnExit.Location = new System.Drawing.Point(105, 179);
+            this.btnExit.Location = new System.Drawing.Point(105, 196);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(75, 23);
             this.btnExit.TabIndex = 2;
@@ -67,7 +68,7 @@
             // 
             // btnLoadFile
             // 
-            this.btnLoadFile.Location = new System.Drawing.Point(105, 81);
+            this.btnLoadFile.Location = new System.Drawing.Point(105, 108);
             this.btnLoadFile.Name = "btnLoadFile";
             this.btnLoadFile.Size = new System.Drawing.Size(75, 23);
             this.btnLoadFile.TabIndex = 3;
@@ -77,7 +78,7 @@
             // 
             // btnAgainstComputer
             // 
-            this.btnAgainstComputer.Location = new System.Drawing.Point(136, 3);
+            this.btnAgainstComputer.Location = new System.Drawing.Point(105, 20);
             this.btnAgainstComputer.Name = "btnAgainstComputer";
             this.btnAgainstComputer.Size = new System.Drawing.Size(75, 23);
             this.btnAgainstComputer.TabIndex = 4;
@@ -96,11 +97,12 @@
             this.Controls.Add(this.btnOnline);
             this.Controls.Add(this.btnSingle);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormMenu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FormMenu";
+            this.Text = "C#五子棋";
             this.ResumeLayout(false);
 
         }

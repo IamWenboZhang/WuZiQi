@@ -20,16 +20,21 @@ namespace HJZBYSJ.Model
 
         public Chessboard()
         {
+            InitEnitity();
+        }
+
+        //初始化棋盘实体
+        public void InitEnitity()
+        {
             //将棋盘实体内的棋子颜色全部赋值为None
             for (int i = 0; i < Hight; i++)
             {
                 for (int j = 0; j < Width; j++)
                 {
-                    this.Entity[i, j] = new ChessPiece(i,j,ChessPieceType.None);
+                    this.Entity[i, j] = new ChessPiece(i, j, ChessPieceType.None);
                 }
             }
         }
-
         public void SetSize(PictureBox picbox)
         {
             //判断控件是高大于宽还是宽大于高，取短边的十分之九来作为棋盘的边长    

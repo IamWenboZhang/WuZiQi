@@ -71,5 +71,32 @@ namespace HJZBYSJ_Server.Model
             ChessPiece result = new ChessPiece(boardX,boardY,color);
             return result;
         }
+
+
+        public static string RoomInfoToString(Room room)
+        {
+            string result = "";
+            result = room.RoomMaster.NickName + "_" + room.RoomMaster.IP + "_" + room.RoomMember.NickName + "_" + room.RoomMember.IP;
+            return result;
+        }
+
+        public static bool RoomInfoStringToPlayerBlackAndWhite(string roominfo,out Player playerBlack,out Player playerWhite)
+        {
+            playerBlack = new Player(ChessPieceType.Black);
+            playerWhite = new Player(ChessPieceType.White);
+            bool result = true;
+            try
+            {
+                string[] tmp = roominfo.Split(new char[] { '_' });
+                playerBlack = new Player(tmp[1], tmp[0], ChessPieceType.Black);
+                playerWhite = new Player(tmp[3], tmp[2], ChessPieceType.White);
+                result = true;
+            }
+            catch
+            {
+                result = false;
+            }
+            return result;
+        }
     }
 }

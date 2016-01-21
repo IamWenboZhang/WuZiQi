@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.textBoxIP = new System.Windows.Forms.TextBox();
             this.textBoxPort = new System.Windows.Forms.TextBox();
             this.btnStar = new System.Windows.Forms.Button();
-            this.btnExit = new System.Windows.Forms.Button();
             this.groupBoxRoom = new System.Windows.Forms.GroupBox();
             this.listBoxRoom = new System.Windows.Forms.ListBox();
             this.groupBoxUser = new System.Windows.Forms.GroupBox();
@@ -80,21 +80,11 @@
             // 
             this.btnStar.Location = new System.Drawing.Point(466, 10);
             this.btnStar.Name = "btnStar";
-            this.btnStar.Size = new System.Drawing.Size(75, 23);
+            this.btnStar.Size = new System.Drawing.Size(150, 23);
             this.btnStar.TabIndex = 4;
             this.btnStar.Text = "启动服务";
             this.btnStar.UseVisualStyleBackColor = true;
             this.btnStar.Click += new System.EventHandler(this.btnStar_Click);
-            // 
-            // btnExit
-            // 
-            this.btnExit.Location = new System.Drawing.Point(547, 10);
-            this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(75, 23);
-            this.btnExit.TabIndex = 5;
-            this.btnExit.Text = "退出";
-            this.btnExit.UseVisualStyleBackColor = true;
-            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // groupBoxRoom
             // 
@@ -141,14 +131,18 @@
             this.ClientSize = new System.Drawing.Size(634, 326);
             this.Controls.Add(this.groupBoxUser);
             this.Controls.Add(this.groupBoxRoom);
-            this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnStar);
             this.Controls.Add(this.textBoxPort);
             this.Controls.Add(this.textBoxIP);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "五子棋服务器端";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBoxRoom.ResumeLayout(false);
             this.groupBoxUser.ResumeLayout(false);
@@ -164,7 +158,6 @@
         private System.Windows.Forms.TextBox textBoxIP;
         private System.Windows.Forms.TextBox textBoxPort;
         private System.Windows.Forms.Button btnStar;
-        private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.GroupBox groupBoxRoom;
         private System.Windows.Forms.ListBox listBoxRoom;
         private System.Windows.Forms.GroupBox groupBoxUser;

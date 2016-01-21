@@ -28,11 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormGameFile));
             this.gridGameView = new System.Windows.Forms.DataGridView();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.btnOK = new System.Windows.Forms.Button();
             this.GameID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.GameName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.btnOK = new System.Windows.Forms.Button();
+            this.btnDel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gridGameView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,6 +52,20 @@
             this.gridGameView.RowTemplate.Height = 23;
             this.gridGameView.Size = new System.Drawing.Size(294, 208);
             this.gridGameView.TabIndex = 0;
+            // 
+            // GameID
+            // 
+            this.GameID.HeaderText = "游戏存档ID";
+            this.GameID.Name = "GameID";
+            this.GameID.ReadOnly = true;
+            this.GameID.Visible = false;
+            // 
+            // GameName
+            // 
+            this.GameName.HeaderText = "游戏名称";
+            this.GameName.Name = "GameName";
+            this.GameName.ReadOnly = true;
+            this.GameName.Width = 250;
             // 
             // btnCancel
             // 
@@ -71,33 +87,32 @@
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
-            // GameID
+            // btnDel
             // 
-            this.GameID.HeaderText = "游戏存档ID";
-            this.GameID.Name = "GameID";
-            this.GameID.ReadOnly = true;
-            // 
-            // GameName
-            // 
-            this.GameName.HeaderText = "游戏名称";
-            this.GameName.Name = "GameName";
-            this.GameName.ReadOnly = true;
-            this.GameName.Width = 150;
+            this.btnDel.Location = new System.Drawing.Point(69, 226);
+            this.btnDel.Name = "btnDel";
+            this.btnDel.Size = new System.Drawing.Size(75, 23);
+            this.btnDel.TabIndex = 3;
+            this.btnDel.Text = "删除";
+            this.btnDel.UseVisualStyleBackColor = true;
+            this.btnDel.Click += new System.EventHandler(this.btnDel_Click);
             // 
             // FormGameFile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(315, 256);
+            this.Controls.Add(this.btnDel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.gridGameView);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormGameFile";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FormGameFile";
+            this.Text = "游戏存档";
             this.Load += new System.EventHandler(this.FormGameFile_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gridGameView)).EndInit();
             this.ResumeLayout(false);
@@ -109,6 +124,7 @@
         private System.Windows.Forms.DataGridView gridGameView;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOK;
+        private System.Windows.Forms.Button btnDel;
         private System.Windows.Forms.DataGridViewTextBoxColumn GameID;
         private System.Windows.Forms.DataGridViewTextBoxColumn GameName;
 

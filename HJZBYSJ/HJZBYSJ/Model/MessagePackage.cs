@@ -55,8 +55,9 @@ namespace HJZBYSJ.Model
             string[] tmp = msg.Split(new char[] { '|' });
             int boardX = int.Parse(tmp[0].Trim());
             int boardY = int.Parse(tmp[1].Trim());
+            string colorStr = tmp[2].Trim();
             ChessPieceType color = ChessPieceType.None;
-            switch (msg)
+            switch (colorStr)
             {
                 case "White":
                     color = ChessPieceType.White;
@@ -68,7 +69,26 @@ namespace HJZBYSJ.Model
                     color = ChessPieceType.None;
                     break;
             }
-            ChessPiece result = new ChessPiece(boardX,boardY,color);
+            ChessPiece result = new ChessPiece(boardX, boardY, color);
+            return result;
+        }   
+
+        public static bool RoomInfoStringToPlayerBlackAndWhite(string roominfo, out Player playerBlack, out Player playerWhite)
+        {
+            playerBlack = new Player(ChessPieceType.Black);
+            playerWhite = new Player(ChessPieceType.White);
+            bool result = true;
+            try
+            {
+                string[] tmp = roominfo.Split(new char[] { '_' });
+                playerBlack = new Player(tmp[1], tmp[0], ChessPieceType.Black);
+                playerWhite = new Player(tmp[3], tmp[2], ChessPieceType.White);
+                result = true;
+            }
+            catch
+            {
+                result = false;
+            }
             return result;
         }
     }

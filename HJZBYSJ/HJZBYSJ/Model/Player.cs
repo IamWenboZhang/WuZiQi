@@ -17,7 +17,7 @@ namespace HJZBYSJ.Model
         public const string Port = "4566";
         //最好的落子点
         public ChessPiece BestPoint = new ChessPiece();
-
+      
         private enum Direction{Left,Up,Right,Bottom,ZuoShang,YouShang,ZuoXia,YouXia,LeftAndRight,UpAndDown,ZuoShangAndYouXia,YoushangAndZuoXia}
 
         public Player(ChessPieceType color)
@@ -32,192 +32,82 @@ namespace HJZBYSJ.Model
             this.Color = color;
         }
 
-        ////检测本方的最佳落子点以及该点的权值
-        //public string CheckBestPoint(Chessboard gameBoard)
-        //{
-        //    string result = "";
-        //    this.BestPoint.Color = this.Color;
-        //    //遍历所有的颜色为空的点
-        //    for (int i = 0; i < Chessboard.Width; i++)
-        //    {
-        //        for (int j = 0; j < Chessboard.Hight; j++)
-        //        {
-        //            if (gameBoard.Entity[i, j].Color == ChessPieceType.None)
-        //            {
-        //                //将这个颜色为空的点赋值为本方颜色
-        //                ChessPiece tmpChessPiece = new ChessPiece(i, j, this.Color);
-        //                //检测该点的权值如果大于最佳点的权值的话将该点赋值为最佳点
-        //                string thisResult = CheckChessPieceCount(tmpChessPiece, gameBoard);
-        //                string bestPointResult = CheckChessPieceCount(this.BestPoint, gameBoard);
-        //                int tmp = GetBigPieceCount(thisResult, bestPointResult);
-        //                switch (tmp)
-        //                {
-        //                    case 0:
-        //                        this.BestPoint = tmpChessPiece;
-        //                        result = thisResult;
-        //                        break;
-        //                    case 1:
-        //                        this.BestPoint = tmpChessPiece;
-        //                        result = thisResult;
-        //                        break;
-        //                    case 2:
-        //                        result = bestPointResult;
-        //                        break;
-        //                }
-        //                ////比较完毕后将该位置的颜色仍然还原为空
-        //                //gameBoard.Entity[i, j].Color = ChessPieceType.None;
-        //            }
-        //        }
-        //    }
-        //    return result;
-        //}
-
-        ////比较两个权值返回比较结果 1代表chesspiececount1大，2代表chesspiececount2大，0代表两个值相等
-        //public static int GetBigPieceCount(string chesspiececount1, string chesspiececount2)
-        //{
-        //    int result = 0;
-        //    int count1, count2, driection1, driection2;
-        //    string[] tmp1 = chesspiececount1.Split(new char[] { '@' });
-        //    count1 = int.Parse(tmp1[0]);
-        //    driection1 = int.Parse(tmp1[1]);
-        //    string[] tmp2 = chesspiececount2.Split(new char[] { '@' });
-        //    count2 = int.Parse(tmp2[0]);
-        //    driection2 = int.Parse(tmp2[1]);
-        //    //以棋子数量count为重
-        //    if (count1 > count2)
-        //    {
-        //        result = 1;
-        //    }
-        //    else if (count1 < count2)
-        //    {
-        //        result = 2;
-        //    }
-        //    //如果1,2的棋子数量相等的话比较影响方向的大小
-        //    else if (count1 == count2)
-        //    {
-        //        if (driection1 > driection2)
-        //        {
-        //            result = 1;
-        //        }
-        //        else if (driection1 == driection2)
-        //        {
-        //            result = 0;
-        //        }
-        //        else if (driection1 < driection2)
-        //        {
-        //            result = 2;
-        //        }
-        //    }
-        //    return result;
-        //}
-
-        ////检测权值
-        //private string CheckChessPieceCount(ChessPiece piece, Chessboard gameBoard)
-        //{
-        //    int pieceCount = 0;
-        //    int driectionCount = 0;
-
-        //    //左右查找
-        //    if (CheckCount(piece, gameBoard, Direction.LeftAndRight) > pieceCount)
-        //    {
-        //        pieceCount = CheckCount(piece, gameBoard, Direction.LeftAndRight);
-        //    }
-        //    else if (CheckCount(piece, gameBoard, Direction.LeftAndRight) == pieceCount)
-        //    {
-        //        driectionCount += 1;
-        //    }
-
-        //    //上下查找
-        //    if (CheckCount(piece, gameBoard, Direction.UpAndDown) > pieceCount)
-        //    {
-        //        pieceCount = CheckCount(piece, gameBoard, Direction.UpAndDown);
-        //    }
-        //    else if (CheckCount(piece, gameBoard, Direction.UpAndDown) == pieceCount)
-        //    {
-        //        driectionCount += 1;
-        //    }
-
-        //    //左上到右下
-        //    if (CheckCount(piece, gameBoard, Direction.ZuoShangAndYouXia) > pieceCount)
-        //    {
-        //        pieceCount = CheckCount(piece, gameBoard, Direction.ZuoShangAndYouXia);
-        //    }
-        //    else if (CheckCount(piece, gameBoard, Direction.ZuoShangAndYouXia) == pieceCount)
-        //    {
-        //        driectionCount += 1;
-        //    }
-
-        //    //右上到左下
-        //    if (CheckCount(piece, gameBoard, Direction.YoushangAndZuoXia) > pieceCount)
-        //    {
-        //        pieceCount = CheckCount(piece, gameBoard, Direction.YoushangAndZuoXia);
-        //    }
-        //    else if (CheckCount(piece, gameBoard, Direction.YoushangAndZuoXia) == pieceCount)
-        //    {
-        //        driectionCount += 1;
-        //    }
-        //    string result = pieceCount.ToString().Trim() + "@" + driectionCount.ToString().Trim();
-        //    return result;
-        //}
-
-        //求出最佳点并返回该点的权值
-        public string GetBestPointEffectLevel(Chessboard gameBoard)
+        //方点影响值的比较函数
+        //返回结果 0：相等   1：str1>str2   2:str1<str2
+        public static int ComparePointEffectLevel(string effectStr1, string effectStr2)
         {
-            string result = "";
-            //遍历所有颜色为空的位置
-            for (int i = 0; i < Chessboard.Hight; i++)
+            int result = 0;
+            int count1, count2, isDu1, isDu2, driection1, driection2;
+            string[] tmp1 = effectStr1.Split(new char[] { '@' });
+            count1 = int.Parse(tmp1[0]);
+            isDu1 = int.Parse(tmp1[1]);
+            driection1 = int.Parse(tmp1[2]);
+            string[] tmp2 = effectStr2.Split(new char[] { '@' });
+            count2 = int.Parse(tmp2[0]);
+            isDu2 = int.Parse(tmp2[1]);
+            driection2 = int.Parse(tmp2[2]);
+            //重要性： 棋子数>是否被堵>方向数
+            //当棋子数量等于5时不需要进行比较两个点的影响力直接相等
+            if (count1 == 5 && count2 == 5)
             {
-                for (int j = 0; j < Chessboard.Width; j++)
+                result = 0;
+            }          
+            else 
+            {
+                //以棋子数量count为重
+                if (count1 > count2)
                 {
-                    if (gameBoard.Entity[i, j].Color == ChessPieceType.None)
+                    result = 1;
+                }
+                else if (count1 < count2)
+                {
+                    result = 2;
+                }
+                //如果1,2的棋子数量相等的话比较影响方向的大小
+                else if (count1 == count2)
+                {
+                    if (isDu1 > isDu2)
                     {
-                        //ChessPiece thisPointPiece = new ChessPiece();
-                        //thisPointPiece.BoardX = gameBoard.Entity[i,j].BoardX;
-                        //thisPointPiece.BoardY = gameBoard.Entity[i, j].BoardY;
-                        //thisPointPiece.Color = gameBoard.Entity[i, j].Color;
-                        //求出该位置的影响值
-                        string thisPointEffectLevel = CheckEffectiveLevel(gameBoard.Entity[i,j], gameBoard);
-                        //求出最佳点的影响值
-                        string bestPointEffectLevel = CheckEffectiveLevel(gameBoard.Entity[this.BestPoint.BoardX,this.BestPoint.BoardY], gameBoard);
-                        //比较两个影响值
-                        int compareResult = CompareEffectLevel(thisPointEffectLevel, bestPointEffectLevel);
-                      
-                        switch (compareResult)
+                        result = 1;
+                    }
+                    else if (isDu1 == isDu2)
+                    {
+                        if (driection1 > driection2)
                         {
-                            //如果两个点影响值相等则将该点的值赋值给最佳点
-                            case 0:
-                                this.BestPoint = gameBoard.Entity[i, j];
-                                result = thisPointEffectLevel;
-                                break;
-                            //如果该点影响值大将该点的值赋值给最佳点返回该点的影响值
-                            case 1:
-                                this.BestPoint = gameBoard.Entity[i, j]; 
-                                result = thisPointEffectLevel;
-                                break;
-                            //如果该点影响值小则不变
-                            case 2:
-                                this.BestPoint = gameBoard.Entity[this.BestPoint.BoardX, this.BestPoint.BoardY];
-                                result = bestPointEffectLevel;
-                                break;
+                            result = 1;
                         }
+                        else if (driection1 == driection2)
+                        {
+                            result = 0;
+                        }
+                        else if (driection1 < driection2)
+                        {
+                            result = 2;
+                        }
+                    }
+                    else if (isDu1 < isDu2)
+                    {
+                        result = 2;
                     }
                 }
             }
-           
             return result;
         }
+       
 
-        //影响值的比较函数
-        public static int CompareEffectLevel(string effectStr1, string effectStr2)
+        //方向影响值的比较函数
+        //返回结果 0：相等   1：str1>str2   2:str1<str2
+        public static int CompareDirectionEffectLevel(string effectStr1, string effectStr2)
         {
             int result = 0;
-            int count1, count2, driection1, driection2;
+            int count1, count2,isDu1,isDu2, driection1, driection2;
             string[] tmp1 = effectStr1.Split(new char[] { '@' });
             count1 = int.Parse(tmp1[0]);
             driection1 = int.Parse(tmp1[1]);
             string[] tmp2 = effectStr2.Split(new char[] { '@' });
             count2 = int.Parse(tmp2[0]);
             driection2 = int.Parse(tmp2[1]);
+            //重要性： 棋子数>是否被堵>方向数
             //以棋子数量count为重
             if (count1 > count2)
             {
@@ -245,150 +135,141 @@ namespace HJZBYSJ.Model
             }
             return result;
         }
+      
 
-        //比较值的大小的函数
-        private void CompareValue(int value,ref int finalCount , ref int directionCount)
+        //检测该点权值
+        public string CheckPointEffectLevel(ChessPiece piece, Chessboard gameBoard)
         {
-            if (value > finalCount)
-            {
-                finalCount = value;
-                directionCount = 1;
-            }
-            else if (value == finalCount)
-            {
-                directionCount = directionCount + 1;
-            }
-        }
-        //检查该点的权值
-        public string CheckEffectiveLevel(ChessPiece piece, Chessboard gameBoard)
-        {
-            int finalCount = 0;//连在一起的棋子数
-            int directionCount = 0;//影响的方向数
-            piece.Color = this.Color;
+            string bestResult = "0@0";
+            
+            int directioncount = 0;
 
-            //当棋子在最左上角时向右方，下方以及右下方三个方向遍历查找
-            if (piece.BoardX - 1 < 0 && piece.BoardY - 1 < 0)
+            //左右查找
+            //左右是否被堵
+            bool ZuoYouisDu = false;
+            int ZuoYoucount = CheckCount(piece, gameBoard, Direction.LeftAndRight,out ZuoYouisDu);
+            string ZuoYouEffectLevel = "";
+            if (ZuoYouisDu)
             {
-                int RightCount = CheckSingleCount(piece, gameBoard,Direction.Right);
-                CompareValue(RightCount, ref finalCount, ref directionCount);
-                int XiaCount = CheckSingleCount(piece, gameBoard, Direction.Bottom);
-                CompareValue(XiaCount, ref finalCount, ref directionCount);
-                int YouXiaCount = CheckSingleCount(piece, gameBoard, Direction.YouXia);
-                CompareValue(YouXiaCount, ref finalCount, ref directionCount);
-
+                ZuoYouEffectLevel = ZuoYoucount.ToString() + "@" + "0";
             }
-            //当棋子在右上角时向左，左下，下三个方向查找
-            else if (piece.BoardX + 1 > Chessboard.Width - 1 && piece.BoardY - 1 < 0)
+            else
             {
-                int ZuoCount = CheckSingleCount(piece, gameBoard, Direction.Left);
-                CompareValue(ZuoCount, ref finalCount, ref directionCount);
-                int ZuoXiaCount = CheckSingleCount(piece, gameBoard, Direction.ZuoXia);
-                CompareValue(ZuoXiaCount, ref finalCount, ref directionCount);
-                int XiaCount = CheckSingleCount(piece, gameBoard, Direction.Bottom);
-                CompareValue(XiaCount, ref finalCount, ref directionCount);
+                ZuoYouEffectLevel = ZuoYoucount.ToString() + "@" + "1";
             }
-            //当棋子在左下角时向右，右上，上三个方向查找
-            else if (piece.BoardX - 1 < 0 && piece.BoardY + 1 > Chessboard.Hight-1)
+            int tmpzuoyouresult = CompareDirectionEffectLevel(ZuoYouEffectLevel, bestResult);
+            if (tmpzuoyouresult == 1)
             {
-                int YouCount = CheckSingleCount(piece, gameBoard, Direction.Right);
-                CompareValue(YouCount, ref finalCount, ref directionCount);
-                int YouShangCount = CheckSingleCount(piece, gameBoard, Direction.YouShang);
-                CompareValue(YouShangCount, ref finalCount, ref directionCount);
-                int ShangCount = CheckSingleCount(piece, gameBoard, Direction.Up);
-                CompareValue(ShangCount, ref finalCount, ref directionCount);
+                bestResult = ZuoYouEffectLevel;
+                directioncount = 1;
             }
-            //当棋子在右下角时向左，左上，上三个方向查找
-            else if (piece.BoardX + 1 > Chessboard.Width - 1 && piece.BoardY + 1 > Chessboard.Hight - 1)
+            else if (tmpzuoyouresult == 0)
             {
-                int ZuoCount = CheckSingleCount(piece, gameBoard, Direction.Left);
-                CompareValue(ZuoCount, ref finalCount, ref directionCount);
-                int ZuoShangCount = CheckSingleCount(piece, gameBoard, Direction.ZuoShang);
-                CompareValue(ZuoShangCount, ref finalCount, ref directionCount);
-                int ShangCount = CheckSingleCount(piece, gameBoard, Direction.Up);
-                CompareValue(ShangCount, ref finalCount, ref directionCount);
+                directioncount += 1;
             }
-            //当棋子在正上方时向左，右，下，左下，右下五个方向查找
-            else if (piece.BoardY - 1 < 0 && piece.BoardX - 1 >= 0 && piece.BoardX + 1 <= Chessboard.Width - 1)
+            //上下查找
+            bool ShangXiaIsDu = false;
+            int ShangXiacount = CheckCount(piece, gameBoard, Direction.UpAndDown,out ShangXiaIsDu);
+            string ShangXiaEffectLevel = "";
+            if (ShangXiaIsDu)
             {
-                int ZuoCount = CheckSingleCount(piece, gameBoard, Direction.Left);
-                CompareValue(ZuoCount, ref finalCount, ref directionCount);
-                int YouCount = CheckSingleCount(piece, gameBoard, Direction.Right);
-                CompareValue(YouCount, ref finalCount, ref directionCount);
-                int XiaCount = CheckSingleCount(piece, gameBoard, Direction.Bottom);
-                CompareValue(XiaCount, ref finalCount, ref directionCount);
-                int ZuoXiaCount = CheckSingleCount(piece, gameBoard, Direction.ZuoXia);
-                CompareValue(ZuoXiaCount, ref finalCount, ref directionCount);
-                int YouXiaCount = CheckSingleCount(piece, gameBoard,Direction.YouXia);
-                CompareValue(YouXiaCount, ref finalCount, ref directionCount);
+                ShangXiaEffectLevel = ShangXiacount.ToString() + "@" + "0";
             }
-            //当棋子在正左边的时候向上，下，右，右上，右下五个方向查找
-            else if (piece.BoardX - 1 < 0 && piece.BoardY + 1 <= Chessboard.Hight - 1 && piece.BoardY - 1 >= 0)
+            else
             {
-                int ShangCount = CheckSingleCount(piece, gameBoard, Direction.Up);
-                CompareValue(ShangCount, ref finalCount, ref directionCount);
-                int XiaCount = CheckSingleCount(piece, gameBoard, Direction.Bottom);
-                CompareValue(XiaCount, ref finalCount, ref directionCount);
-                int YouCount = CheckSingleCount(piece, gameBoard, Direction.Right);
-                CompareValue(YouCount, ref finalCount, ref directionCount);
-                int YouShangCount = CheckSingleCount(piece, gameBoard, Direction.YouShang);
-                CompareValue(YouShangCount, ref finalCount, ref directionCount);
-                int YouXiaCount = CheckSingleCount(piece, gameBoard, Direction.YouXia);
-                CompareValue(YouXiaCount, ref finalCount, ref directionCount);
+                ShangXiaEffectLevel = ShangXiacount.ToString() + "@" + "1";
             }
-            //当棋子在正右边的时候向上，下，左，左上，左下五个方向查找
-            else if (piece.BoardX + 1 > Chessboard.Width - 1 && piece.BoardY - 1 >= 0 && piece.BoardY + 1 <= Chessboard.Hight - 1)
+            int tmpshangxiaresult = CompareDirectionEffectLevel(ShangXiaEffectLevel, bestResult);
+            if (tmpshangxiaresult == 1)
             {
-                int ShangCount = CheckSingleCount(piece, gameBoard, Direction.Up);
-                CompareValue(ShangCount, ref finalCount, ref directionCount);
-                int XiaCount = CheckSingleCount(piece, gameBoard, Direction.Bottom);
-                CompareValue(XiaCount, ref finalCount, ref directionCount);
-                int ZuoCount = CheckSingleCount(piece, gameBoard, Direction.Left);
-                CompareValue(ZuoCount, ref finalCount, ref directionCount);
-                int ZuoShangCount = CheckSingleCount(piece, gameBoard, Direction.ZuoShang);
-                CompareValue(ZuoShangCount, ref finalCount, ref directionCount);
-                int ZuoXiaCount = CheckSingleCount(piece, gameBoard, Direction.ZuoXia);
-                CompareValue(ZuoXiaCount, ref finalCount, ref directionCount);
+                bestResult = ShangXiaEffectLevel;
+                directioncount = 1;
             }
-            //当棋子在正下边的时候向左，右，上，左上，右上五个方向查找
-            else if (piece.BoardY + 1 > Chessboard.Width - 1 && piece.BoardX - 1 >= 0 && piece.BoardX + 1 <= Chessboard.Width - 1)
+            else if (tmpshangxiaresult == 0)
             {
-                int ZuoCount = CheckSingleCount(piece, gameBoard, Direction.Left);
-                CompareValue(ZuoCount, ref finalCount, ref directionCount);
-                int YouCount = CheckSingleCount(piece, gameBoard, Direction.Right);
-                CompareValue(YouCount, ref finalCount, ref directionCount);
-                int ShangCount = CheckSingleCount(piece, gameBoard, Direction.Up);
-                CompareValue(ShangCount, ref finalCount, ref directionCount);
-                int ZuoShangCount = CheckSingleCount(piece, gameBoard, Direction.ZuoShang);
-                CompareValue(ZuoShangCount, ref finalCount, ref directionCount);
-                int YouShangCount = CheckSingleCount(piece, gameBoard, Direction.YouShang);
-                CompareValue(YouShangCount, ref finalCount, ref directionCount);
+                directioncount += 1;
             }
-            //当棋子在中间时向上下左右左上右下右上左下八个方向查找
-            else if (piece.BoardY - 1 >= 0 && piece.BoardY + 1 <= Chessboard.Hight - 1 && piece.BoardX - 1 >= 0 && piece.BoardX + 1 <= Chessboard.Width - 1)
+            //左上到右下
+            bool ZuoShangYouXiaIsDu = false;
+            int ZuoShangYouXiacount = CheckCount(piece, gameBoard, Direction.ZuoShangAndYouXia,out ZuoShangYouXiaIsDu);
+            string ZuoShangYouXiaEffectLevel = "";
+            if (ZuoShangYouXiaIsDu)
             {
-                int ZuoCount = CheckSingleCount(piece, gameBoard, Direction.Left);
-                CompareValue(ZuoCount, ref finalCount, ref directionCount);
-                int YouCount = CheckSingleCount(piece, gameBoard, Direction.Right);
-                CompareValue(YouCount, ref finalCount, ref directionCount);
-                int ShangCount = CheckSingleCount(piece, gameBoard, Direction.Up);
-                CompareValue(ShangCount, ref finalCount, ref directionCount);
-                int XiaCount = CheckSingleCount(piece, gameBoard, Direction.Bottom);
-                CompareValue(XiaCount, ref finalCount, ref directionCount);
-                int ZuoShangCount = CheckSingleCount(piece, gameBoard, Direction.ZuoShang);
-                CompareValue(ZuoShangCount, ref finalCount, ref directionCount);
-                int ZuoXiaCount = CheckSingleCount(piece, gameBoard, Direction.ZuoXia);
-                CompareValue(ZuoXiaCount, ref finalCount, ref directionCount);
-                int YouShangCount = CheckSingleCount(piece, gameBoard, Direction.YouShang);
-                CompareValue(YouShangCount, ref finalCount, ref directionCount);
-                int YouXiaCount = CheckSingleCount(piece, gameBoard, Direction.YouXia);
-                CompareValue(YouXiaCount, ref finalCount, ref directionCount);
+                ZuoShangYouXiaEffectLevel = ZuoShangYouXiacount.ToString() + "@" + "0";
             }
-
-            piece.Color = ChessPieceType.None;
-            string result = finalCount.ToString() + "@" + directionCount.ToString();
+            else
+            {
+                ZuoShangYouXiaEffectLevel = ZuoShangYouXiacount.ToString() + "@" + "1";
+            }
+            int tmpZuoShangYouXiaresult = CompareDirectionEffectLevel(ZuoShangYouXiaEffectLevel, bestResult);
+            if (tmpZuoShangYouXiaresult == 1)
+            {
+                bestResult = ZuoShangYouXiaEffectLevel;
+                directioncount = 1;
+            }
+            else if (tmpZuoShangYouXiaresult == 0)
+            {
+                directioncount += 1;
+            }
+            //右上到左下
+            bool YouShangZuoXiaIsDu = false;
+            int YouShangZuoXiacount = CheckCount(piece, gameBoard, Direction.YoushangAndZuoXia, out YouShangZuoXiaIsDu);
+            string YouShangZuoXiaEffectLevel = "";
+            if (YouShangZuoXiaIsDu)
+            {
+                YouShangZuoXiaEffectLevel = YouShangZuoXiacount.ToString() + "@" + "0";
+            }
+            else
+            {
+                YouShangZuoXiaEffectLevel = YouShangZuoXiacount.ToString() + "@" + "1";
+            }
+            int tmpYouShangZuoXiaresult = CompareDirectionEffectLevel(YouShangZuoXiaEffectLevel, bestResult);
+            if (tmpYouShangZuoXiaresult == 1)
+            {
+                bestResult = YouShangZuoXiaEffectLevel;
+                directioncount = 1;
+            }
+            else if (tmpYouShangZuoXiaresult == 0)
+            {
+                directioncount += 1;
+            }
+            string result = bestResult + "@" + directioncount.ToString();
             return result;
         }
 
+        public string GetBestPointEffectLevel(Chessboard gamBoard)
+        {
+            int maxX = 0, maxY = 0;
+            string maxEffectLevel = "0@0@0";
+            //遍历棋盘
+            for (int i = 0; i < Chessboard.Hight; i++)
+            {
+                for (int j = 0; j < Chessboard.Width; j++)
+                {
+                    //当棋子为空时
+                    if (gamBoard.Entity[i, j].Color == ChessPieceType.None)
+                    {
+                        //得出该棋子的权值
+                        gamBoard.Entity[i, j].Color = this.Color;
+                        string pointEffectLevel = CheckPointEffectLevel(gamBoard.Entity[i, j], gamBoard);
+                        gamBoard.Entity[i, j].Color = ChessPieceType.None;
+                        //跟最大权值比较
+                        int cpvalue = ComparePointEffectLevel(pointEffectLevel, maxEffectLevel);
+                        //如果该棋子的权值比最大权值大，最大权值等于该子的权值，记录下该子的索引
+                        if (cpvalue == 1)
+                        {
+                            maxEffectLevel = pointEffectLevel;
+                            maxX = i;
+                            maxY = j;
+                        }
+                    }
+                   
+                }
+            }
+
+            this.BestPoint = new ChessPiece(maxX, maxY, this.Color);
+            return maxEffectLevel;
+        }
 
         //检测是否胜利
         public bool CheckWin(ChessPiece piece,Chessboard gameBoard)
@@ -453,6 +334,48 @@ namespace HJZBYSJ.Model
             return isWin;
         }
 
+        //单方向遍历并可以引出是否被堵
+        private int CheckSingleCount(ChessPiece piece, Chessboard gameBoard, Direction direction,out bool isDu)
+        {
+            int changeX = 0, changeY = 0;
+            isDu = false;
+            switch (direction)
+            {
+                case Direction.Up: changeX = 0; changeY = -1; break;
+                case Direction.Bottom: changeX = 0; changeY = 1; break;
+                case Direction.Left: changeX = -1; changeY = 0; break;
+                case Direction.Right: changeX = 1; changeY = 0; break;
+                case Direction.YouShang: changeX = 1; changeY = -1; break;
+                case Direction.YouXia: changeX = 1; changeY = 1; break;
+                case Direction.ZuoShang: changeX = -1; changeY = -1; break;
+                case Direction.ZuoXia: changeX = -1; changeY = 1; break;
+            }
+            int count = 0;
+            int tmpX = piece.BoardX;
+            int tmpY = piece.BoardY;
+            while (gameBoard.Entity[tmpX, tmpY].Color == piece.Color)
+            {
+                count++;
+                tmpX = piece.BoardX + changeX * count;
+                tmpY = piece.BoardY + changeY * count;
+
+                //判断到棋盘边缘棋子后停止
+                if (tmpX < 0 || tmpX >= Chessboard.Width - 1 || tmpY < 0 || tmpY >= Chessboard.Hight - 1)
+                {
+                    //如果走到棋盘边缘则也算被堵
+                    isDu = true;
+                    break;
+                }
+                //如果颜色不为空同时颜色也不为本玩家的颜色则说明该方向被堵了
+                else if (gameBoard.Entity[tmpX, tmpY].Color != ChessPieceType.None && gameBoard.Entity[tmpX, tmpY].Color != this.Color)
+                {
+                    isDu = true;
+                }
+            }
+            return count;
+        }
+
+
         //单方向遍历
         private int CheckSingleCount(ChessPiece piece,Chessboard gameBoard,Direction direction)
         {
@@ -487,22 +410,16 @@ namespace HJZBYSJ.Model
         }
 
         //双方向查找
-        private int CheckCount(ChessPiece piece, Chessboard gameBoard, Direction direction)
+        private int CheckCount(ChessPiece piece, Chessboard gameBoard, Direction direction,out bool isDu)
         {
+            isDu = false;
             int count = 0;
             int changeX1 = 0;
             int changeY1 = 0;
             int changeX2 = 0;
             int changeY2 = 0;
             Direction direction1 = Direction.Left;//左，上，左上，右上
-            Direction direction2 = Direction.Right;//右，下，右下，左下
-            //switch (direction)
-            //{                
-            //    case Direction.LeftAndRight: changeX1 = -1; changeY1 = 0; changeX2 = 1; changeY2 = 0; break;
-            //    case Direction.UpAndDown: changeX1 = 0; changeY1 = -1; changeX2 = 0; changeY2 = 1; break;
-            //    case Direction.ZuoShangAndYouXia: changeX1 = -1; changeY1 = -1; changeX2 = 1; changeY2 = 1; break;
-            //    case Direction.YoushangAndZuoXia: changeX1 = 1; changeY1 = -1; changeX2 = -1; changeY2 = 1; break;
-            //}
+            Direction direction2 = Direction.Right;//右，下，右下，左下          
             switch (direction)
             {
                 case Direction.LeftAndRight: direction1 = Direction.Left; direction2 = Direction.Right; break;
@@ -519,6 +436,73 @@ namespace HJZBYSJ.Model
             //{
 
             //}
+            if (piece.BoardX + changeX1 < 0 || piece.BoardX + changeX1 >= Chessboard.Width - 1
+                || piece.BoardY + changeY1 < 0 || piece.BoardY + changeY1 >= Chessboard.Hight - 1)
+            {
+                count = CheckSingleCount(piece, gameBoard, direction2,out isDu);
+            }
+            else if (piece.BoardX + changeX2 < 0 || piece.BoardX + changeX2 >= Chessboard.Width - 1
+                || piece.BoardY + changeY2 < 0 || piece.BoardY + changeY2 >= Chessboard.Hight - 1)
+            {
+                count = CheckSingleCount(piece, gameBoard, direction1,out isDu);
+            }
+            //判断是否是左右都有
+            else if (piece.BoardX + changeX2 >= 0 && piece.BoardX + changeX2 <= Chessboard.Width - 1
+                && piece.BoardY + changeY2 >= 0 && piece.BoardY + changeY2 <= Chessboard.Hight - 1 && piece.BoardX + changeX1 >= 0 && piece.BoardX + changeX1 <= Chessboard.Width - 1
+                && piece.BoardY + changeY1 >= 0 && piece.BoardY + changeY1 <= Chessboard.Hight - 1)
+            {
+                if (gameBoard.Entity[piece.BoardX + changeX1, piece.BoardY + changeY1].Color == piece.Color
+                && gameBoard.Entity[piece.BoardX + changeX2, piece.BoardY + changeY2].Color == piece.Color)
+                {
+                    //如果为真则向左右两个方向遍历判断和是否等于5
+                    bool leftisDu = false;
+                    int leftCount = CheckSingleCount(piece, gameBoard, direction1,out leftisDu);
+                    bool rightisDu = false;
+                    int rightCount = CheckSingleCount(piece, gameBoard, direction2,out rightisDu);
+                    count = leftCount + rightCount - 1;
+                    if (leftisDu || rightisDu)
+                    {
+                        isDu = true;
+                    }
+                }
+                else
+                {
+                    //如果为否判断左边有没有子
+                    if (gameBoard.Entity[piece.BoardX + changeX1, piece.BoardY + changeY1].Color == piece.Color)
+                    {
+                        //如果左边有子向左遍历判断是否等于5
+                        count = CheckSingleCount(piece, gameBoard, direction1,out isDu);
+                    }
+                    //如果左边没有子判断右边有没有子
+                    else if (gameBoard.Entity[piece.BoardX + changeX2, piece.BoardY + changeY2].Color == piece.Color)
+                    {
+                        //如果右边有子向右遍历判断是否等于5
+                        count = CheckSingleCount(piece, gameBoard, direction2, out isDu);
+                    }
+                }
+            }
+            return count;
+        }
+
+
+        //双方向查找
+        private int CheckCount(ChessPiece piece, Chessboard gameBoard, Direction direction)
+        {
+            int count = 0;
+            int changeX1 = 0;
+            int changeY1 = 0;
+            int changeX2 = 0;
+            int changeY2 = 0;
+            Direction direction1 = Direction.Left;//左，上，左上，右上
+            Direction direction2 = Direction.Right;//右，下，右下，左下          
+            switch (direction)
+            {
+                case Direction.LeftAndRight: direction1 = Direction.Left; direction2 = Direction.Right; break;
+                case Direction.UpAndDown: direction1 = Direction.Up; direction2 = Direction.Bottom; break;
+                case Direction.ZuoShangAndYouXia: direction1 = Direction.ZuoShang; direction2 = Direction.YouXia; break;
+                case Direction.YoushangAndZuoXia: direction1 = Direction.YouShang; direction2 = Direction.ZuoXia; break;
+            }
+        
             if (piece.BoardX + changeX1 < 0 || piece.BoardX + changeX1 >= Chessboard.Width - 1 
                 || piece.BoardY + changeY1 < 0 || piece.BoardY + changeY1 >= Chessboard.Hight - 1)
             {

@@ -1,0 +1,16 @@
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\bin\Release\HJZBYSJ.exe.config
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\bin\Release\HJZBYSJ.exe
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\bin\Release\HJZBYSJ.pdb
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\bin\Release\MrOwlLibrary.dll
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\bin\Release\MrOwlLibrary.pdb
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Release\HJZBYSJ.View.FormGame.resources
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Release\HJZBYSJ.View.FormGameFile.resources
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Release\HJZBYSJ.View.FormLoad.resources
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Release\HJZBYSJ.View.FormMenu.resources
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Release\HJZBYSJ.View.FormRoom.resources
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Release\HJZBYSJ.Properties.Resources.resources
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Release\HJZBYSJ.View.FormSetGameFileName.resources
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Release\HJZBYSJ.csproj.GenerateResource.Cache
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Release\HJZBYSJ.exe
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Release\HJZBYSJ.pdb
+E:\GitHubController\WuZiQi\HJZBYSJ\HJZBYSJ\obj\x86\Release\HJZBYSJ.csprojResolveAssemblyReference.cache

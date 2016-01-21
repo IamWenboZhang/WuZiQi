@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormRoom));
             this.btnLoad = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.groupBoxRoom = new System.Windows.Forms.GroupBox();
@@ -111,6 +112,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(494, 311);
             this.Controls.Add(this.btnCreat);
             this.Controls.Add(this.groupBoxUsers);
@@ -118,11 +120,12 @@
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnLoad);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormRoom";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FormRoom";
+            this.Text = "游戏大厅";
             this.Load += new System.EventHandler(this.FormRoom_Load);
             this.groupBoxRoom.ResumeLayout(false);
             this.groupBoxUsers.ResumeLayout(false);
