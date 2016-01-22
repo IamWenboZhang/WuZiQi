@@ -504,6 +504,7 @@ namespace HJZBYSJ.View
                             this.Step = 1;
                             this.ThisGame.isWin = false;
                             DrawChessBoard(out g, out bmap);
+                            this.listBoxMsg.Items.Clear();
                         }));
                         if (Program.ThisGamePlayer.Color == ChessPieceType.Black)
                         {
@@ -581,6 +582,7 @@ namespace HJZBYSJ.View
                     else
                     {
                         SendCommandReverRequest();
+                        MessageBox.Show("已接发送重新游戏请求。请等待对方回应！");
                     }
                     break;
                 default:
