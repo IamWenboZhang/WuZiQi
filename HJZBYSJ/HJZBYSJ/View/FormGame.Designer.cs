@@ -258,7 +258,7 @@
             this.MinimizeBox = false;
             this.Name = "FormGame";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "C#五子棋";
+            this.Text = "BetaGo";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormGame_FormClosing);
             this.Load += new System.EventHandler(this.FormGame_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGameSence)).EndInit();

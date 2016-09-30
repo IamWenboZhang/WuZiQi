@@ -64,7 +64,6 @@
             // 
             this.textBoxIP.Location = new System.Drawing.Point(68, 12);
             this.textBoxIP.Name = "textBoxIP";
-            this.textBoxIP.ReadOnly = true;
             this.textBoxIP.Size = new System.Drawing.Size(130, 21);
             this.textBoxIP.TabIndex = 2;
             // 

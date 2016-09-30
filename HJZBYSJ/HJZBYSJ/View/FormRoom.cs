@@ -71,8 +71,10 @@ namespace HJZBYSJ.View
             SendCommandRequestUserList();
         }
 
-        public void DealMsg(string msg)
+        //消息处理函数
+        public void DealMsg(byte[] bytemsg)
         {
+            string msg = Encoding.Default.GetString(bytemsg);
             MessagePackage dealMsgPkg = new MessagePackage(msg);
             switch (dealMsgPkg.Command)
             {

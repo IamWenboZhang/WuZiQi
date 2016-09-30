@@ -74,7 +74,7 @@ namespace HJZBYSJ.View
             InitializeComponent();
             SetGame(game);
         }
-        //绘制地图
+        //绘制棋盘
         private void DrawChessBoard(out Graphics gph, out Bitmap bmap)
         {   
             //创建画布
@@ -202,7 +202,8 @@ namespace HJZBYSJ.View
             }
             return isOk;
         }
-
+        
+        //判断是否胜利
         private void JudgeWin(ChessPiece piece)
         {
             //判断是否胜利
@@ -221,6 +222,7 @@ namespace HJZBYSJ.View
                     this.ThisGame.isWin = true;
                 }
             }
+            //如果没有胜利步数+1 落子颜色改变
             else
             {
                 this.Step = this.Step + 1;
@@ -276,7 +278,10 @@ namespace HJZBYSJ.View
                 MessageBox.Show("请等待对方落子！");
             }
         }
-
+        /// <summary>
+        /// 人机对战模块
+        /// </summary>
+        /// <param name="e">鼠标单击的地方</param>
         private void SingleAgainstComputerModelGame(EventArgs e)
         {
             //判断是否是胜利状态
@@ -349,7 +354,7 @@ namespace HJZBYSJ.View
                 }
             }      
         }
-
+        //双人单机对战模式 
         private void ShuangRenDanJiModelGame(EventArgs e)
         {
             //判断是否是胜利状态
@@ -412,8 +417,10 @@ namespace HJZBYSJ.View
             Program.ThisGameMrowlTcpClient.SendMessage(sendPkg.MsgPkgToString());
         }
 
-        public void DealMsg(string msg)
+        //TCP消息处理函数
+        public void DealMsg(byte[] bytemsg)
         {
+            string msg = Encoding.Default.GetString(bytemsg);
             MessagePackage dealMsgPkg = new MessagePackage(msg);
             switch (dealMsgPkg.Command)
             {

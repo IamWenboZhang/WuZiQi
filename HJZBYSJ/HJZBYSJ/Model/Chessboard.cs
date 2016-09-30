@@ -8,6 +8,7 @@ using HJZBYSJ.DataBase;
 
 namespace HJZBYSJ.Model
 {
+    //棋盘类
     public class Chessboard
     {
         public const int Width = 15;          //棋盘宽有多少个点
@@ -18,6 +19,7 @@ namespace HJZBYSJ.Model
         public Point ZuoShangPt;              //左上角的点
         public Point YouXiaPt;                //右下角的点
 
+        //初始化函数
         public Chessboard()
         {
             InitEnitity();
@@ -35,6 +37,8 @@ namespace HJZBYSJ.Model
                 }
             }
         }
+
+        //设置棋盘大小
         public void SetSize(PictureBox picbox)
         {
             //判断控件是高大于宽还是宽大于高，取短边的十分之九来作为棋盘的边长    
@@ -46,6 +50,7 @@ namespace HJZBYSJ.Model
             {
                 this.SideLength = picbox.Width - 30;
             }
+
             //得出起始点的位置
             int starLocationX = (picbox.Width - this.SideLength) / 2;
             int starLocationY = (picbox.Height - this.SideLength) / 2;
@@ -73,6 +78,7 @@ namespace HJZBYSJ.Model
         //    return result;
         //}
 
+        //将棋子对象二维数组转化为字符串二维数组
         public string[][] GameBoardEnityToStringArray(ChessPiece[,] Entity)
         {
             string[][] result = new string[Hight][];
@@ -86,11 +92,13 @@ namespace HJZBYSJ.Model
                 {
                     result[i][j] = Entity[i, j].BoardX.ToString() + "@" 
                         + Entity[i, j].BoardY.ToString() + "@" + Entity[i, j].Color;
+                    //转化结果："0@0@Black"
                 }
             }
             return result;
         }
 
+        //字符串二维数组反序列化为棋子对象二维数组
         public ChessPiece[,] StringArrayToGameBoardEnity(string[][] str)
         {
             ChessPiece[,] result = new ChessPiece[Width, Hight];

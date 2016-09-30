@@ -20,6 +20,7 @@ namespace HJZBYSJ.Model
         public int BoardY = 0;          //棋盘上的y坐标
         public ChessPieceType Color = ChessPieceType.None;   //棋子的颜色
        
+        //初始化函数
         public ChessPiece()
         {
             this.BoardX = 0;
@@ -27,6 +28,7 @@ namespace HJZBYSJ.Model
             this.Color = ChessPieceType.None;
         }
 
+        //重载初始化函数
         public ChessPiece(int boardX, int boardY, ChessPieceType color)
         {
             this.BoardX = boardX;

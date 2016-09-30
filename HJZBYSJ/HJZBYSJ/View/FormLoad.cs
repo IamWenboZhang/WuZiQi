@@ -46,7 +46,14 @@ namespace HJZBYSJ.View
                     listenThread.IsBackground = true;
                     listenThread.Start();
                     MessagePackage sendPkg = new MessagePackage("LianJie", "用户登录：" + NickName, Program.ThisGamePlayer.IP, Program.ThisGamePlayer.NickName, DateTime.Now.ToString("yy-MM-dd hh:mm:ss"));
-                    Program.ThisGameMrowlTcpClient.SendMessage(sendPkg.MsgPkgToString());
+                    if (!Program.ThisGameMrowlTcpClient.SendMessage(sendPkg.MsgPkgToString()))
+                    {
+                        MessageBox.Show("消息发送失败！");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("连接服务器失败！", "错误！");
                 }
             }
             else
@@ -64,8 +71,9 @@ namespace HJZBYSJ.View
         }
 
 
-        private void DealMsg(string msg)
+        private void DealMsg(byte[] bytemsg)
         {
+            string msg = Encoding.Default.GetString(bytemsg);
             MessagePackage dealMsgPkg = new MessagePackage(msg);
             switch (dealMsgPkg.Command)
             {     

@@ -70,6 +70,7 @@ namespace HJZBYSJ.DataBase
 
         }
 
+        //初始化函数
         public Game(int step, bool isWin, ChessPieceType currentColor,GameModel thisGameModel)
         {
             IPAddress ipadd;
@@ -107,9 +108,9 @@ namespace HJZBYSJ.DataBase
         }
     }
 
-    public  class GameUtil
+    //用于数据库连接的类
+    public class GameUtil
     {
-
         // 测试数据库连接是否成功
         public static bool TestConnection()
         {
@@ -129,6 +130,7 @@ namespace HJZBYSJ.DataBase
             }
         }
 
+        //获取所有的游戏存档
         public static DataTable GetAllGame()
         {
             try
@@ -156,7 +158,7 @@ namespace HJZBYSJ.DataBase
         }
 
 
-        // 获得一条记录
+        // 获得一条游戏存档记录
         public static bool GetAt(int gameId, ref Game game)
         {
 
@@ -240,7 +242,7 @@ namespace HJZBYSJ.DataBase
         }
 
 
-        // 添加一条记录
+        // 添加一条游戏存档记录
         public static bool Add(Game a)
         {
             try
@@ -274,7 +276,7 @@ namespace HJZBYSJ.DataBase
             }
         }
 
-        // 删除游戏存档
+        // 删除一条游戏存档
         public static bool Delete(int gameId)
         {
             try
@@ -301,7 +303,7 @@ namespace HJZBYSJ.DataBase
         }
 
 
-        // 将二维数组序列化成XML
+        // 将字符串二维数组序列化成XML
         public static string ErWeiArrayToXMLStr(string[][] str)
         {
             string m_strXML;
@@ -314,7 +316,7 @@ namespace HJZBYSJ.DataBase
             return m_strXML;
         }
 
-        // 把XML反序列化为二维数组
+        // 把XML反序列化为字符串二维数组
         public static string[][] XMLStrToErWeiArray(string m_strXML)
         {
             // 从数据库取出XML字符串，这里使用m_strXML变量

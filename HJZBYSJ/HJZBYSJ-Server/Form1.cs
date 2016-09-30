@@ -37,12 +37,15 @@ namespace HJZBYSJ_Server
             }
             this.textBoxIP.Text = ipadd.ToString();
             this.textBoxPort.Text = "4566";
-            mrowlTCPListener = new MrOwlTCPListener(ipadd, "4566");
-            mrowlTCPListener.funcChuLi = DealMsg;
+            //mrowlTCPListener = new MrOwlTCPListener(ipadd, "4566");
+            //mrowlTCPListener.funcChuLi = DealMsg;
         }
 
         private void btnStar_Click(object sender, EventArgs e)
         {
+            IPAddress tmp = IPAddress.Parse(this.textBoxIP.Text);
+            mrowlTCPListener = new MrOwlTCPListener(tmp, "4566");
+            mrowlTCPListener.funcMsgChuLi = DealMsg;
             Thread listenerTheard = new Thread(new ThreadStart(mrowlTCPListener.StartListen));
             listenerTheard.IsBackground = true;
             listenerTheard.Start();
@@ -170,8 +173,9 @@ namespace HJZBYSJ_Server
         }
 
         //消息处理方法 
-        private void DealMsg(string msg)
+        private void DealMsg(byte[] bytemsg)
         {
+            string msg = Encoding.Default.GetString(bytemsg);         
             MessagePackage delPkg = new MessagePackage(msg);
             switch (delPkg.Command)
             {

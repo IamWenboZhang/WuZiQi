@@ -102,7 +102,7 @@
             this.MinimizeBox = false;
             this.Name = "FormMenu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "C#五子棋";
+            this.Text = "BetaGo";
             this.ResumeLayout(false);
 
         }

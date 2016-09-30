@@ -7,17 +7,18 @@ namespace HJZBYSJ.Model
 {
     class MessagePackage
     {
-        public string Command = "";
-        public string Data = "";
-        public string SenderIP = "";
-        public string SenderName = "";
-        public string MsgTime = "";
+        public string Command = "";             //命令类型
+        public string Data = "";               //数据
+        public string SenderIP = "";            //发送这段消息的客户端的IP地址
+        public string SenderName = "";          //发送这段消息的客户端的昵称
+        public string MsgTime = "";             //发送这段消息的时间
 
         public MessagePackage()
         {
 
         }
 
+        //初始化函数
         public MessagePackage(string command, string data, string senderip, string sendername, string msgtime)
         {
             this.Command = command;
@@ -27,6 +28,7 @@ namespace HJZBYSJ.Model
             this.MsgTime = msgtime;
         }
 
+        //根据字符串反序列化为MessagePackage类的对象
         public MessagePackage(string msg)
         {
             string[] tmp = msg.Split(new char[] { '@' });
@@ -37,6 +39,7 @@ namespace HJZBYSJ.Model
             this.MsgTime = tmp[4];
         }
 
+        //将MessagePackage类的对象序列化为字符串
         public string MsgPkgToString()
         {
             string result = "";
@@ -44,12 +47,14 @@ namespace HJZBYSJ.Model
             return result;
         }
 
+        //棋子序列化为字符串
         public static string LuoZiMsgToStirng(ChessPiece piece)
         {
             string result = piece.BoardX.ToString() + "|" + piece.BoardY.ToString() + "|" + piece.Color.ToString();
             return result;
         }
 
+        //将棋子字符串反序列化为棋子类的对象
         public static ChessPiece LuoZiMsgToChessPiece(string msg)
         {
             string[] tmp = msg.Split(new char[] { '|' });
@@ -73,6 +78,7 @@ namespace HJZBYSJ.Model
             return result;
         }   
 
+        //把一个房间的信息解析出来 实例化黑方玩家和白方玩家
         public static bool RoomInfoStringToPlayerBlackAndWhite(string roominfo, out Player playerBlack, out Player playerWhite)
         {
             playerBlack = new Player(ChessPieceType.Black);
