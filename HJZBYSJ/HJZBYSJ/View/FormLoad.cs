@@ -106,7 +106,7 @@ namespace HJZBYSJ.View
             IPAddress ipadd1;
             if (MrOwlNetWork.GetLocalIP(out ipadd1))
             {
-                this.textBoxServerIP.Text = ipadd1.ToString();
+                //this.textBoxServerIP.Text = ipadd1.ToString();
             }
             this.textBoxNickName.Focus();
         }

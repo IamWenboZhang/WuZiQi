@@ -50,3 +50,13 @@
 2016/8/12 21:00:06 : MrOwlTCPListener.StartListen函数出错：错误信息：未在侦听。调用此方法前必须先调用 Start() 方法。
 2016/8/12 21:00:06 : MrOwlTCPListener.StartListen函数出错：错误信息：未在侦听。调用此方法前必须先调用 Start() 方法。
 2016/8/12 21:00:06 : MrOwlTCPListener.StartListen函数出错：错误信息：未在侦听。调用此方法前必须先调用 Start() 方法。
+2016/9/30 12:45:31 : MrOwlTCPListener.StartListen函数出错：错误信息：一个封锁操作被对 WSACancelBlockingCall 的调用中断。
+2016/9/30 12:47:25 : MrOwlTCPListener.StartListen函数出错：错误信息：一个封锁操作被对 WSACancelBlockingCall 的调用中断。
+2016/9/30 12:47:25 : MrOwlTCPListener.StartListen函数出错：错误信息：未在侦听。调用此方法前必须先调用 Start() 方法。
+2016/9/30 12:47:25 : MrOwlTCPListener.StartListen函数出错：错误信息：未在侦听。调用此方法前必须先调用 Start() 方法。
+2016/9/30 12:47:25 : MrOwlTCPListener.StartListen函数出错：错误信息：未在侦听。调用此方法前必须先调用 Start() 方法。
+2016/9/30 12:47:25 : MrOwlTCPListener.StartListen函数出错：错误信息：未在侦听。调用此方法前必须先调用 Start() 方法。
+2016/9/30 12:47:25 : MrOwlTCPListener.StartListen函数出错：错误信息：未在侦听。调用此方法前必须先调用 Start() 方法。
+2016/9/30 12:47:25 : MrOwlTCPListener.StartListen函数出错：错误信息：未在侦听。调用此方法前必须先调用 Start() 方法。
+2016/10/18 1:19:27 : MrOwlTCPListener.StartListen函数出错：错误信息：一个封锁操作被对 WSACancelBlockingCall 的调用中断。
+2016/10/18 1:19:27 : MrOwlTCPListener.StartListen函数出错：错误信息：一个封锁操作被对 WSACancelBlockingCall 的调用中断。

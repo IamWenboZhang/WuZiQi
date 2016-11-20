@@ -49,6 +49,7 @@
             // 
             // btnCancel
             // 
+            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(154, 213);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
@@ -63,7 +64,7 @@
             this.textBoxServerIP.Name = "textBoxServerIP";
             this.textBoxServerIP.Size = new System.Drawing.Size(116, 21);
             this.textBoxServerIP.TabIndex = 2;
-            this.textBoxServerIP.Text = "192.168.110.247";
+            this.textBoxServerIP.Text = "123.207.227.105";
             // 
             // textBoxNickName
             // 
